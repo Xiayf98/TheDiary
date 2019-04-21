@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditActivity">
+
+</android.support.constraint.ConstraintLayout>-->
+<!--    android:orientation="vertical"-->
+<!--    android:background="@drawable/title_bg"-->
+
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_edit"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/edit_bar_layout"
+        android:elevation="0dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="110dp">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/category_layout"
+                android:layout_width="match_parent"
+                android:layout_height="80dp">
+
+                <com.robinhood.ticker.TickerView
+                    android:paddingTop="10dp"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/day_tickerView"
+                    android:text="0"
+                    android:textSize="50dp"
+                    android:textColor="#fff"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:textSize="25dp"
+                    android:textColor="#ffff"
+                    android:layout_toEndOf="@+id/day_tickerView"
+                    android:layout_toRightOf="@+id/day_tickerView"
+                    android:layout_alignTop="@+id/day_tickerView"
+                    android:id="@+id/currency_text"
+                    android:text=" Days"
+                    android:paddingTop="10dp"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+
+            <!--<TextView
+                android:id="@+id/date_text"
+                android:textStyle="bold"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/category_layout"
+                android:text="JUNE 22nd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"/>-->
+
+            <TextView
+                android:id="@+id/date_text"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_below="@id/category_layout"
+                android:background="#5e5e5e"
+                android:text="JUNE 25nd"
+                android:textSize="13dp"
+                android:textStyle="bold"
+                android:textColor="#fff"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                />
+
+        </RelativeLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/mainButton_edit"
+        app:srcCompat="@drawable/vector_drawable_round_send___px"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:elevation="8dp"
+        app:layout_anchor="@id/edit_bar_layout"
+        app:layout_anchorGravity="bottom|end"
+        android:layout_margin="16dp"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <EditText
+            android:id="@+id/editText_edit"
+            android:maxLines="5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </RelativeLayout>
+
+
+
+</android.support.design.widget.CoordinatorLayout>
