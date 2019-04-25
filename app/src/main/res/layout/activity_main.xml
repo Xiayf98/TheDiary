@@ -24,12 +24,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="150dp">
 
-                <Button
-                    android:id="@+id/portait_button"
-                    android:background="@drawable/vector_drawable_round_people_outline___px"
+                <ImageView
+                    android:id="@+id/avatar_view"
                     android:layout_centerInParent="true"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/vector_drawable_default_avatar"/>
             </RelativeLayout>
 
             <RelativeLayout
