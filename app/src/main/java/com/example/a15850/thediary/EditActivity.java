@@ -38,12 +38,22 @@ public class EditActivity extends AppCompatActivity {
         editText = (EditText) findViewById(R.id.editText_edit);
         //Floating Button
         FloatingActionButton button_EditToMain = (FloatingActionButton) findViewById(R.id.mainButton_edit);
+        FloatingActionButton button_UndoToMain = (FloatingActionButton) findViewById(R.id.mainButton_undo);
+
 
         button_EditToMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 inputText = editText.getText().toString();
                 // Toast.makeText(EditActivity.this,inputText,Toast.LENGTH_SHORT).show(); //测试EditText内容传入了inputText//测试成功
+                Intent intent_edit_main = new Intent(EditActivity.this,MainActivity.class);
+                startActivity(intent_edit_main);
+            }
+
+        });
+        button_UndoToMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 Intent intent_edit_main = new Intent(EditActivity.this,MainActivity.class);
                 startActivity(intent_edit_main);
             }
