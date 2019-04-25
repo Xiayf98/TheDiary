@@ -99,6 +99,18 @@
         android:layout_margin="16dp"
         />
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/mainButton_undo"
+        app:srcCompat="@drawable/vector_drawable_round_undo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:elevation="8dp"
+        app:layout_anchor="@id/edit_bar_layout"
+        app:layout_anchorGravity="bottom|end"
+        android:layout_margin="80dp"
+        />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -106,9 +118,9 @@
 
         <EditText
             android:id="@+id/editText_edit"
-            android:maxLines="5"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:maxLines="5" />
 
     </RelativeLayout>
 
