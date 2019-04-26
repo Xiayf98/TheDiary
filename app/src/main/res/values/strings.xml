@@ -29,4 +29,5 @@
     <string name="delete">delete</string>
     <string name="share">share</string>
     <string name="select_all">select all</string>
+    <string name="action_sign_up_new">New Account? Click Here!</string>
 </resources>
