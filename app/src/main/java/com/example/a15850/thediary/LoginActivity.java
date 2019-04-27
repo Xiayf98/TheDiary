@@ -3,8 +3,11 @@ package com.example.a15850.thediary;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -62,7 +65,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
     };
-
 
 
     /**
@@ -184,6 +186,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         boolean cancel = false;
         View focusView = null;
+        int signFailType=1;
 
         // Check for a valid email address format.
         if (TextUtils.isEmpty(email)) {
@@ -203,11 +206,43 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             cancel = true;
         }
 
+        Context context=getApplicationContext();
+        ConnectivityManager connectivityManager=(ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(connectivityManager==null){
+            Toast.makeText(LoginActivity.this, "系统出现错误", Toast.LENGTH_SHORT).show();
+            cancel=true;
+            signFailType=2;
+        }else {
+            NetworkInfo networkInfos = connectivityManager.getActiveNetworkInfo();
+            if (networkInfos == null||networkInfos.isConnected()!=true) {
+                cancel = true;
+                signFailType = 2;
+            } /*else {
+                for (int i = 1; i <= networkInfos.length; ++i) {
+                    if (networkInfos[i].getState() == NetworkInfo.State.CONNECTED) {
+                        break;
+                    } else if (networkInfos[i].getState() != NetworkInfo.State.CONNECTED
+                            && i == networkInfos.length) {
+                        cancel = true;
+                        signFailType = 2;
+                    }
+                }
+            }*/
+        }
+
+
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
-            focusView.requestFocus();
+          if(signFailType==1) {
+              focusView.requestFocus();
+          }else{
+              if(signFailType==2){
+                  Toast.makeText(LoginActivity.this, "网络似乎没有连接,请检查网络设置", Toast.LENGTH_SHORT).show();
+              }
+          }
+
         } else {
             //以下是输入账号密码格式均正确后的登录注册操作
             //检查所输邮箱地址是否已被注册,用于接下来的登录或者注册
@@ -230,7 +265,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     @Override
                     public void onFailure(int i, String s) {
                         Toast.makeText(LoginActivity.this, "账号或密码可能不正确哦", Toast.LENGTH_SHORT).show();
-
                     }
                 });
 
@@ -260,8 +294,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                     @Override
                     public void onFailure(int code, String msg) {
-                        Toast.makeText(LoginActivity.this, "一个邮箱只能注册一个帐号哦，该邮箱已被注册啦", Toast.LENGTH_SHORT).show();
-                    }
+                        Toast.makeText(LoginActivity.this,
+                                "一个邮箱只能注册一个帐号哦，该邮箱已被注册啦", Toast.LENGTH_SHORT).show();}
+
                 });
 
                 /*userInformation.save(this,new SaveListener() {
