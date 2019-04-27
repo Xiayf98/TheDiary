@@ -52,8 +52,8 @@
                     android:layout_toRightOf="@+id/day_tickerView"
                     android:layout_alignTop="@+id/day_tickerView"
                     android:id="@+id/currency_text"
-                    android:text=" Days"
-                    android:paddingTop="10dp"
+                    android:text=" Records"
+                    android:paddingTop="25dp"
                     android:gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
