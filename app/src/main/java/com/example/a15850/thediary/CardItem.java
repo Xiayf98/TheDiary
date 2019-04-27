@@ -3,19 +3,19 @@ package com.example.a15850.thediary;
 import android.widget.Button;
 
 public class CardItem {
-    private int mTextResource;
-    private int mTitleResource;
+    String mTextResource;
+    String mTitleResource;
 
-    public CardItem(int title, int text ) {
+    public CardItem(String title, String text ) {
         mTitleResource = title;
         mTextResource = text;
     }
 
-    public int getText() {
+    public String getText() {
         return mTextResource;
     }
 
-    public int getTitle() {
+    public String getTitle() {
         return mTitleResource;
     }
 }

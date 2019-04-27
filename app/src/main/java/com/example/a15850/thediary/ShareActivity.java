@@ -15,6 +15,9 @@ public class ShareActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private CardPagerAdapter mCardAdapter;
     private ShadowTransformer mCardShadowTransformer;
+    String inputTextTitle;//日记标题
+    String inputTextbody;//日记正文
+    int cardNum;//公开日记的数量
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +41,17 @@ public class ShareActivity extends AppCompatActivity {
 //            }
 //        });
         mCardAdapter=new CardPagerAdapter();
-        mCardAdapter.addCardItem(new CardItem(R.string.title_1,R.string.text_1));
-        mCardAdapter.addCardItem(new CardItem(R.string.title_2,R.string.text_1));
-        mCardAdapter.addCardItem(new CardItem(R.string.title_3,R.string.text_1));
-        mCardAdapter.addCardItem(new CardItem(R.string.title_4,R.string.text_1));
+        //从数据库中获取公开日记的篇数传入cardNum
+        cardNum=1;
+        for(int i=0;i<cardNum;i++){
+            //从数据库中获取第i篇公开日记的标题和正文
+            //分别传入inputTextTitle和inputTextBody中
+            //这里先给两个字符串赋值进行测试
+            inputTextTitle="Spring";
+            inputTextbody="Have a good day!";
 
+            mCardAdapter.addCardItem(new CardItem(inputTextTitle,inputTextbody));
+        }
         mCardShadowTransformer=new ShadowTransformer(mViewPager,mCardAdapter);
         mCardShadowTransformer.enableScaling(true);
 
