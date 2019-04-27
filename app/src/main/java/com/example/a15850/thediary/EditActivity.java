@@ -11,12 +11,17 @@ import android.widget.Toast;
 import com.robinhood.ticker.TickerUtils;
 import com.robinhood.ticker.TickerView;
 
+import java.util.Calendar;
+
+
 public class EditActivity extends AppCompatActivity {
 
     private EditText editTextTitle;
     private EditText editTextBody;
     String inputTextTitle;
     String inputTextBody;
+    String diaryNum;//日记篇数
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,14 +29,15 @@ public class EditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit);
         getSupportActionBar().setElevation(0);
 
-        //TickerView
+        //TickerView点击显示当前日记篇数
+        //获取日记篇数传入diaryNum
+        diaryNum="13";//测试用
         final TickerView tickerView = findViewById(R.id.day_tickerView);
         tickerView.setCharacterLists(TickerUtils.provideNumberList());
-
         tickerView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                tickerView.setText("234");
+                tickerView.setText(diaryNum);
             }
         });
 
