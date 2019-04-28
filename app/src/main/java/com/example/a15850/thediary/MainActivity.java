@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-
         //显式1
         Button button_MainToEdit = (Button) findViewById(R.id.editButton_main);
         button_MainToEdit.setOnClickListener(new View.OnClickListener() {
