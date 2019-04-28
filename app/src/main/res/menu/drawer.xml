@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/navigation_notifications"
+            android:icon="@drawable/ic_notifications_black_24dp"
+            android:title="@string/title_notifications" />
+
+        <item
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/vector_drawable_round_settings___px"
+        android:title="Settings" />
+
+        <item
+        android:id="@+id/navigation_logout"
+        android:icon="@drawable/vector_drawable_round_cancel___px"
+        android:title="Log out" />
+
+
+    </group>
+</menu>

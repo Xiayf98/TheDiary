@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">TheDiary</string>
 
+    <!-- Strings related to main_NavigationView_drawer -->
+    <string name="drawer_open" translatable="false">close drawer</string>
+    <string name="drawer_close" translatable="false">open drawer</string>
+
+
     <!-- Strings related to share -->
     <string name="title_1">Cool card</string>
     <string name="title_2">Ok card</string>

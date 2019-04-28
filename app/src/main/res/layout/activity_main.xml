@@ -1,107 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.v4.widget.DrawerLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context=".MainActivity">
+    android:clickable="true"
+    android:focusableInTouchMode="true">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/main_bar_layout"
-        app:elevation="0dp"
-
-        android:orientation="vertical"
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="200dp">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        tools:context=".MainActivity">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/main_bar_layout"
+            android:layout_width="match_parent"
+
+            android:layout_height="200dp"
+            android:orientation="vertical"
+            app:elevation="0dp">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorPrimary"
+                android:theme="@style/ThemeToolbar"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:popupTheme="@style/Theme.Design.Light"
+                app:titleTextColor="#FFFF"
+                app:title="Cheers,mate!" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:id="@+id/portrait_layout"
+                    android:background="@color/colorPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp">
+
+                    <ImageView
+                        android:id="@+id/portait_button"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/vector_drawable_default_avatar" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/portrait_layout">
+
+                    <TextView
+                        android:id="@+id/name_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text=""
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="17dp"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/shareButton_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="25dp"
+            android:clickable="true"
+            android:elevation="5dp"
+            android:backgroundTint="@color/colorAccent"
+            app:fabSize="normal"
+            app:layout_anchor="@id/main_bar_layout"
+            app:layout_anchorGravity="bottom|end"
+            app:srcCompat="@drawable/vector_drawable_round_share___px" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/homeButton_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="25dp"
+            android:clickable="true"
+            android:elevation="5dp"
+            android:backgroundTint="@color/colorAccent"
+            app:fabSize="normal"
+            app:layout_anchor="@id/main_bar_layout"
+            app:layout_anchorGravity="bottom|left"
+            app:srcCompat="@drawable/vector_drawable_baseline_home___px" />
 
         <RelativeLayout
+            android:id="@+id/add_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <RelativeLayout
-                android:id="@+id/portrait_layout"
-                android:layout_width="match_parent"
-                android:layout_height="150dp">
-
-                <ImageView
-                    android:id="@+id/avatar_view"
-                    android:layout_centerInParent="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/vector_drawable_default_avatar"/>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/portrait_layout"
-                >
-
-                <TextView
-                    android:id="@+id/name_text"
-                    android:text="Cheers,mate!"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="17dp"
-                    android:textStyle="bold"
-                    android:layout_centerHorizontal="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </RelativeLayout>
-
-
+            <Button
+                android:id="@+id/editButton_main"
+                android:layout_width="58dp"
+                android:layout_height="58dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="100dp"
+                android:background="@drawable/vector_drawable_round_add_box___px"
+                android:elevation="8dp"
+                android:stateListAnimator="@null" />
 
         </RelativeLayout>
 
-    </android.support.design.widget.AppBarLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/shareButton_main"
-        app:srcCompat="@drawable/vector_drawable_round_share___px"
+    </android.support.design.widget.CoordinatorLayout>
+
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/navigation_main"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        app:layout_anchor="@id/main_bar_layout"
-        android:elevation="5dp"
-        app:fabSize="normal"
-        app:layout_anchorGravity="bottom|end"
-        android:layout_margin="25dp"
-        />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/homeButton_main"
-        app:srcCompat="@drawable/vector_drawable_baseline_home___px"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        app:layout_anchor="@id/main_bar_layout"
-        android:elevation="5dp"
-        app:fabSize="normal"
-        app:layout_anchorGravity="bottom|left"
-        android:layout_margin="25dp"
-        />
-
-    <RelativeLayout
-        android:id="@+id/add_layout"
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <Button
-            android:id="@+id/editButton_main"
-            android:layout_width="58dp"
-            android:layout_height="58dp"
-            android:layout_margin="20dp"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:stateListAnimator="@null"
-            android:elevation="8dp"
-            android:background="@drawable/vector_drawable_round_add_box___px"/>
-
-    </RelativeLayout>
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_main"
+        app:menu="@menu/drawer" />
 
 
+</android.support.v4.widget.DrawerLayout>
 
-</android.support.design.widget.CoordinatorLayout>
+    <!--  app:headerLayout="@layout/nav_header_main"
+            app:menu="@menu/activity_main_drawer" -->
