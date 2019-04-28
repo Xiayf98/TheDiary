@@ -13,10 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
-    private List<CardView> mViews;
-    private List<CardItem> mData;
-    private float mBaseElevation;
-    private boolean isLiked = false;
+    public List<CardView> mViews;
+    public List<CardItem> mData;
+    public float mBaseElevation;
+    public boolean isLiked = false;
+    public int likes;//点赞数
+
 
     public CardPagerAdapter() {
         mData = new ArrayList<>();
@@ -78,6 +80,7 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
         contentTextView.setText(item.getText());
     }
 
+    //点击改变点赞状态
     public void giveALike(CardItem item,View view){
         final CardView cardView = (CardView) view.findViewById(R.id.cardView);
         cardView.setOnTouchListener(new View.OnTouchListener(){
@@ -87,11 +90,13 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
                     //change to the pressed_background
                     cardView.setCardBackgroundColor(android.graphics.Color.parseColor("#F3DBCF"));
                     isLiked=true;
+                    likes++;
                 }
                 else{
                     //change to the unpressed_background
                     cardView.setCardBackgroundColor(Color.WHITE);
                     isLiked=false;
+                    likes--;
                 }
                 return false;
             }
