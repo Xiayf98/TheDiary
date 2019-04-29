@@ -1,11 +1,19 @@
 package com.example.a15850.thediary;
-//主Activity，应用的入口点，构建和运行应用时，系统会启动此 Activity 的实例并加载其布局。
+
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import com.example.a15850.thediary.database.Diary;
+
+import java.util.List;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.listener.FindListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,5 +55,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 }
+
+
 
 

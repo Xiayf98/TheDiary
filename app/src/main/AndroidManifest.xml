@@ -41,13 +41,16 @@
         <activity
             android:name=".HomeActivity"
             android:label="Home"/>
-         <activity
+        <activity
              android:name=".ShareActivity"
-             android:label="Share"/>
+             android:label="Share">
+
+         </activity>
         <activity
              android:name=".EditActivity"
-             android:label="Edit"/>
+             android:label="Edit">
 
+        </activity>
     </application>
 
 </manifest>

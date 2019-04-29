@@ -33,30 +33,38 @@
             <RelativeLayout
                 android:id="@+id/category_layout"
                 android:layout_width="match_parent"
-                android:layout_height="80dp">
-
-                <com.robinhood.ticker.TickerView
-                    android:paddingTop="10dp"
-                    android:layout_centerHorizontal="true"
-                    android:id="@+id/day_tickerView"
-                    android:text="0"
-                    android:textSize="50dp"
-                    android:textColor="#fff"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                android:layout_height="78dp">
 
                 <TextView
-                    android:textSize="25dp"
-                    android:textColor="#ffff"
-                    android:layout_toEndOf="@+id/day_tickerView"
-                    android:layout_toRightOf="@+id/day_tickerView"
-                    android:layout_alignTop="@+id/day_tickerView"
                     android:id="@+id/currency_text"
-                    android:text=" Records"
-                    android:paddingTop="25dp"
+                    android:layout_width="124dp"
+                    android:layout_height="60dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="48dp"
+                    android:layout_marginRight="48dp"
+                    android:layout_marginBottom="0dp"
                     android:gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:text="Records"
+                    android:textColor="#ffff"
+                    android:textSize="25dp" />
+
+                <TextView
+                    android:id="@+id/diaryNumView"
+                    android:layout_width="108dp"
+                    android:layout_height="60dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginRight="3dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_toStartOf="@+id/currency_text"
+                    android:layout_toLeftOf="@+id/currency_text"
+                    android:gravity="center"
+                    android:text="TextView"
+                    android:textColor="@android:color/background_light"
+                    android:textColorLink="@android:color/background_light"
+                    android:textSize="24sp" />
 
             </RelativeLayout>
 
@@ -75,14 +83,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_below="@id/category_layout"
+                android:layout_marginTop="0dp"
                 android:background="#5e5e5e"
-                android:text="JUNE 25nd"
-                android:textSize="13dp"
-                android:textStyle="bold"
-                android:textColor="#fff"
                 android:gravity="center_vertical"
                 android:paddingLeft="15dp"
-                />
+                android:text="JUNE 25nd"
+                android:textColor="#fff"
+                android:textSize="13dp"
+                android:textStyle="bold" />
 
         </RelativeLayout>
 
