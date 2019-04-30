@@ -34,18 +34,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="Main" />
+
         <activity
             android:name=".HomeActivity"
-            android:label="Home"/>
+            android:label="Home">
+        </activity>
+
         <activity
              android:name=".ShareActivity"
              android:label="Share">
 
          </activity>
+
         <activity
              android:name=".EditActivity"
              android:label="Edit">

@@ -39,9 +39,14 @@
         android:id="@+id/diary_fragment"
         android:name="com.example.a15850.thediary.DiaryFragment"
         android:layout_width="416dp"
-        android:layout_height="339dp"
+        android:layout_height="458dp"
+        android:layout_marginTop="76dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/shareButton"
+        app:layout_constraintTop_toBottomOf="@+id/backToMain"
+        app:layout_constraintVertical_bias="0.0"
         tools:layout="@layout/fragment_diary_list"
-        tools:layout_editor_absoluteY="80dp" />
+        tools:layout_editor_absoluteX="0dp" />
 
     <Button
         android:id="@+id/selectAllButton"

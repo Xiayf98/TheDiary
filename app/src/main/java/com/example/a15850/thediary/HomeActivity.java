@@ -9,16 +9,27 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import com.example.a15850.thediary.database.Diary;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.listener.FindListener;
 
 public class HomeActivity extends AppCompatActivity
         implements DiaryFragment.OnListFragmentInteractionListener {
-    //private DiaryFragment.OnListFragmentInteractionListener onListFragmentInteractionListener;
     private ImageButton backToMainPageButton;//返回main界面的按钮
     private ToggleButton editOrDoneButton;//编辑按钮（用于多选删除或多选分享）
     private Button selectAllButton;
     private Button shareButton;
     private Button deleteButton;
+    public String currentUserEmail;
 
     //private DiaryFragment diaryFragment;
 
@@ -27,7 +38,8 @@ public class HomeActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);//设置要显示的视图
-
+        //Bmob.initialize(this, "dbd8daec0aa8c1a0b71dcfb737dc0dbc");//only for test
+        //queryPersonalDiary();
         //
         backToMainPageButton = (ImageButton) findViewById(R.id.backToMain);//找到要编辑的按钮（这是返回main界面的按钮）
         backToMainPageButton.setOnClickListener(new backToMainPageButtonListener());
@@ -51,6 +63,45 @@ public class HomeActivity extends AppCompatActivity
         //diaryFragment=new DiaryFragment();
     }
 
+
+//    public void queryPersonalDiary(){
+//        //currentUserEmail= (String)BmobUser.getObjectByKey(HomeActivity.this,"email");
+//        BmobQuery<Diary> queryPersonalDiary=new BmobQuery<Diary>();
+//        queryPersonalDiary.addWhereEqualTo("email","dzwblue@163.com");//only for test
+//        queryPersonalDiary.setLimit(25);
+//        queryPersonalDiary.findObjects(HomeActivity.this, new FindListener<Diary>() {
+//            @Override
+//            public void onSuccess(List<Diary> list) {
+//                Toast.makeText(HomeActivity.this, list.size()+"篇个人日记查询成功", Toast.LENGTH_SHORT).show();
+//                int size=list.size();
+//                int count=0;
+//                if(size!=0){
+//                    for(Diary diary:list){
+//                        ++count;
+//                        DiaryContent.DiaryItem diaryItem= new DiaryContent.DiaryItem(String.valueOf(count),
+//                                diary.getTitle(), diary.getBody(),diary.getObjectId());
+//                        DiaryContent.ITEMS.add(diaryItem);
+//                    }
+//                }else{
+//                    for(int i=0;i<7;++i){
+//                        DiaryContent.DiaryItem diaryItem= new DiaryContent.DiaryItem("0",
+//                                "日记为空:)", "无内容0",null);
+//                        DiaryContent.ITEMS.add(diaryItem);
+//                    }
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onError(int i, String s) {
+//                Toast.makeText(HomeActivity.this, "个人日记查询失败", Toast.LENGTH_SHORT).show();
+//                DiaryContent.DiaryItem diaryItem= new DiaryContent.DiaryItem("0",
+//                        "日记为空:)", "无内容0",null);
+//                DiaryContent.ITEMS.add(diaryItem);
+//
+//            }
+//        });
+//    }
 
     //返回main界面按钮的响应设置
     private class backToMainPageButtonListener implements OnClickListener {
@@ -93,6 +144,7 @@ public class HomeActivity extends AppCompatActivity
 
 
 
+
     }
 
 
@@ -123,10 +175,12 @@ public class HomeActivity extends AppCompatActivity
     public void onListFragmentInteraction(DiaryContent.DiaryItem item) {
         //这里实现点击其中的一项转到相应的查看界面，
         // 查看的具体内容由item的信息提供（之后须将item信息加入Intent），启动edit界面时需要接收这个信息
+        String tellEditThisIsReading="read";
+        String [] diaryInformation={tellEditThisIsReading,item.title,item.content,item.id};
         Intent readThisDiary=new Intent(HomeActivity.this,EditActivity.class);
-        //请将‘MainActivity’改成需要查看的Activity（例如edit界面）：）
-
+        readThisDiary.putExtra("willBeRead",diaryInformation);
         startActivity(readThisDiary);
-
     }
+
+
 }

@@ -44,7 +44,7 @@ public class MydiaryRecyclerViewAdapter extends
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mContentView.setText(mValues.get(position).title);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,7 +62,6 @@ public class MydiaryRecyclerViewAdapter extends
     public int getItemCount() {
         return mValues.size();
     }
-
 
     /*The views in the list are represented by view holder objects.
         These objects are instances of a class you define by extending RecyclerView.ViewHolder.*/
@@ -84,4 +83,5 @@ public class MydiaryRecyclerViewAdapter extends
             return super.toString() + " '" + mContentView.getText() + "'";
         }
     }
+
 }

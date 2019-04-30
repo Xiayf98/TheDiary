@@ -9,8 +9,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.example.a15850.thediary.database.Diary;
 
 import java.util.List;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.listener.FindListener;
 
 /**
  * A fragment representing a list of Items.
@@ -19,18 +25,16 @@ import java.util.List;
  * interface.
  */
 
-public class DiaryFragment extends Fragment {
+public class DiaryFragment extends Fragment{
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
 
-
-    //private DiaryContent diaryContent;
-    // private MydiaryRecyclerViewAdapter mAdapter;
+    private MydiaryRecyclerViewAdapter mAdapter;
     private RecyclerView recyclerView;
-    //private RecyclerView.LayoutManager layoutManager;//The view will be connected to a layout manager
+
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -55,6 +59,8 @@ public class DiaryFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+//        mAdapter=new MydiaryRecyclerViewAdapter(DiaryContent.ITEMS,mListener);
+
         //初始化(unused)
         // diaryContent = new DiaryContent();//日记内容
 //        mListener=new OnListFragmentInteractionListener() {
@@ -63,7 +69,6 @@ public class DiaryFragment extends Fragment {
 //
 //            }
 //        };
-        //mAdapter=new MydiaryRecyclerViewAdapter(diaryContent.ITEMS,mListener);
 
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
@@ -99,11 +104,18 @@ public class DiaryFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));//The view will be connected to a layout manager
             }
-            recyclerView.setAdapter(new MydiaryRecyclerViewAdapter(DiaryContent.ITEMS,mListener));
+//            mAdapter=new MydiaryRecyclerViewAdapter(DiaryContent.ITEMS,mListener);
+//            recyclerView.setAdapter(mAdapter);
         }
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mAdapter=new MydiaryRecyclerViewAdapter(DiaryContent.ITEMS,mListener);
+        recyclerView.setAdapter(mAdapter);
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -137,6 +149,7 @@ public class DiaryFragment extends Fragment {
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
         void onListFragmentInteraction(DiaryContent.DiaryItem item);
+
     }
 }
 
