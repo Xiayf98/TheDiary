@@ -8,54 +8,39 @@
     android:addStatesFromChildren="false"
     tools:context=".HomeActivity">
 
-    <ImageButton
-        android:id="@+id/backToMain"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:contentDescription="@android:string/cancel"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="?attr/actionModeCloseDrawable" />
-
-    <ToggleButton
-        android:id="@+id/EditOrDone"
-        android:layout_width="72dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:checked="false"
-        android:contentDescription="@android:string/untitled"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textOff="@string/edit"
-        android:textOn="@string/done"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <!--<ImageButton-->
+    <!--android:id="@+id/backToMain"-->
+    <!--android:layout_width="56dp"-->
+    <!--android:layout_height="56dp"-->
+    <!--android:layout_marginStart="16dp"-->
+    <!--android:layout_marginLeft="16dp"-->
+    <!--android:layout_marginTop="16dp"-->
+    <!--android:contentDescription="@android:string/cancel"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toTopOf="parent"-->
+    <!--app:srcCompat="?attr/actionModeCloseDrawable" />-->
 
     <fragment
         android:id="@+id/diary_fragment"
         android:name="com.example.a15850.thediary.DiaryFragment"
         android:layout_width="416dp"
-        android:layout_height="467dp"
+        android:layout_height="489dp"
+        android:layout_marginBottom="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:layout="@layout/fragment_diary_list"
-        tools:layout_editor_absoluteY="80dp" />
+        tools:layout_editor_absoluteX="0dp" />
 
     <Button
         android:id="@+id/selectAllButton"
         style="@style/select_all"
         android:layout_width="90dp"
         android:layout_height="39dp"
-        android:layout_marginEnd="323dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:text="@string/select_all"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBaseline_toBaselineOf="@+id/shareButton"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -66,7 +51,7 @@
         android:layout_marginLeft="46dp"
         android:layout_marginEnd="46dp"
         android:layout_marginRight="46dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="20dp"
         android:text="@string/share"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:visibility="invisible"
@@ -78,11 +63,11 @@
         android:id="@+id/deleteButton"
         android:layout_width="90dp"
         android:layout_height="39dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:text="@string/delete"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBaseline_toBaselineOf="@+id/shareButton"
         app:layout_constraintEnd_toEndOf="parent" />
-
 </android.support.constraint.ConstraintLayout>

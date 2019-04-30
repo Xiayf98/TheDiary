@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        //显式1
+        //跳转至Edit界面
         Button button_MainToEdit = (Button) findViewById(R.id.editButton_main);
         button_MainToEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,8 +97,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
-
     }
 }
 

@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class DiaryFragment extends Fragment {
 
 
     //private DiaryContent diaryContent;
-    // private MydiaryRecyclerViewAdapter mAdapter;
+    private MydiaryRecyclerViewAdapter mAdapter;
     private RecyclerView recyclerView;
     //private RecyclerView.LayoutManager layoutManager;//The view will be connected to a layout manager
 
@@ -74,8 +75,6 @@ public class DiaryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_diary_list, container, false);
-
-
         /*recyclerView = (RecyclerView) getView().findViewById(R.id.list);
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -99,7 +98,8 @@ public class DiaryFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));//The view will be connected to a layout manager
             }
-            recyclerView.setAdapter(new MydiaryRecyclerViewAdapter(DiaryContent.ITEMS,mListener));
+            mAdapter=new MydiaryRecyclerViewAdapter(DiaryContent.ITEMS,mListener);
+            recyclerView.setAdapter(mAdapter);
         }
         return view;
     }
@@ -121,6 +121,13 @@ public class DiaryFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+//    public void showCheckBox(){
+//        mAdapter.showCheckBox();
+//    }
+//    public void hideCheckBox(){
+//        mAdapter.hideCheckBox();
+//    }
+
 
     /**
      * This interface must be implemented by activities that contain this
@@ -134,9 +141,14 @@ public class DiaryFragment extends Fragment {
      */
 
 
+
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
         void onListFragmentInteraction(DiaryContent.DiaryItem item);
+    }
+    public interface OnListFragmentInteractionContronller {
+        // TODO: Update argument type and name
+        void onListFragmentController(boolean show);
     }
 }
 

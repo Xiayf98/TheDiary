@@ -3,24 +3,30 @@ package com.example.a15850.thediary;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ImageButton;
 import android.widget.ToggleButton;
 
 public class HomeActivity extends AppCompatActivity
         implements DiaryFragment.OnListFragmentInteractionListener {
-    //private DiaryFragment.OnListFragmentInteractionListener onListFragmentInteractionListener;
-    private ImageButton backToMainPageButton;//返回main界面的按钮
+    private DiaryFragment.OnListFragmentInteractionContronller onListFragmentInteractionContronller;
+    private FloatingActionButton backToMainPageButton;//返回main界面的按钮
     private ToggleButton editOrDoneButton;//编辑按钮（用于多选删除或多选分享）
     private Button selectAllButton;
     private Button shareButton;
     private Button deleteButton;
+    private CheckBox checkBox;
+//    public boolean flage;
 
-    //private DiaryFragment diaryFragment;
+    private DiaryFragment diaryFragment;
 
 
     @Override
@@ -28,75 +34,59 @@ public class HomeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);//设置要显示的视图
 
-        //
-        backToMainPageButton = (ImageButton) findViewById(R.id.backToMain);//找到要编辑的按钮（这是返回main界面的按钮）
-        backToMainPageButton.setOnClickListener(new backToMainPageButtonListener());
-
-        //
-        editOrDoneButton = (ToggleButton) findViewById(R.id.EditOrDone);//找到要编辑的按钮（这是返回编辑或确定按钮）
-        editOrDoneButton.setOnCheckedChangeListener(new editOrDoneButtonListener());
-
-        //
+        //全选按钮
         selectAllButton=(Button)findViewById(R.id.selectAllButton);
         selectAllButton.setOnClickListener(new selectAllButtonListener());
-
-        //
+        //分享按钮
         shareButton=(Button)findViewById(R.id.shareButton);
         shareButton.setOnClickListener(new shareButtonListener());
-        //
+        //删除按钮
         deleteButton=(Button)findViewById(R.id.deleteButton);
         deleteButton.setOnClickListener(new deleteButtonListener());
-
-        //
+        //复选框
+        checkBox=(CheckBox)findViewById(R.id.check_state);
         //diaryFragment=new DiaryFragment();
     }
 
-
-    //返回main界面按钮的响应设置
-    private class backToMainPageButtonListener implements OnClickListener {
-        //
-        public void onClick(View v) {
-            Intent intent = new Intent();
-                /*通过将 Intent 传递给 startActivity()来
-                启动新的 Activity 实例。Intent 描述了要启动的 Activity，
-                并携带了任何必要的数据。*/
-            intent.setClass(HomeActivity.this, MainActivity.class);
-            //这里从HomeActivity跳至另一个界面，请将‘MainActivity’换成需要跳转的Activity（例如个人主页）：）
-
-            //把一个值写入到Intent中
-            intent.putExtra("Text", "测试值");
-            //启动另一个activity
-            HomeActivity.this.startActivity(intent);
-
-        }
+    //创建Menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater=getMenuInflater();
+        inflater.inflate(R.menu.home_title,menu);
+        return super.onCreateOptionsMenu(menu);
     }
-
-    //编辑按钮（用于多选删除或分享）的响应设置
-    private class editOrDoneButtonListener implements CompoundButton.OnCheckedChangeListener {
-        @Override
-        public void onCheckedChanged(CompoundButton button,boolean isChecked)
-        {
-            //添加Edit按钮的响应(出现全选、删除、分享的按钮)，并且使日记列表的状态变为可多选的状态
-            if(isChecked) {
+    //菜单栏中按钮响应
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            case R.id.home_to_main://跳转至main界面
+                Intent intent_home_main = new Intent(HomeActivity.this,MainActivity.class);
+                startActivity(intent_home_main);
+                return true;
+            case R.id.home_edit:
                 selectAllButton.setVisibility(View.VISIBLE);
                 shareButton.setVisibility(View.VISIBLE);
                 deleteButton.setVisibility(View.VISIBLE);
-            }
-            else{
+//                diaryFragment.showCheckBox();
+                if(onListFragmentInteractionContronller!=null){
+                    onListFragmentInteractionContronller.onListFragmentController(true);
+                }
+//                flage=true;
+                return true;
+            case R.id.home_edit_finish:
                 selectAllButton.setVisibility(View.INVISIBLE);
                 shareButton.setVisibility(View.INVISIBLE);
                 deleteButton.setVisibility(View.INVISIBLE);
-            }
-
+//                diaryFragment.hideCheckBox();
+                if(onListFragmentInteractionContronller!=null){
+                    onListFragmentInteractionContronller.onListFragmentController(false);
+                }
+//                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-
-
-
     }
 
-
-    //
     private class selectAllButtonListener implements OnClickListener {
 
         public void onClick(View v) {
