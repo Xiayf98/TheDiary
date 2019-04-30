@@ -1,73 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/homePageLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:addStatesFromChildren="false"
-    tools:context=".HomeActivity">
+    tools:context="com.example.a15850.thediary.HomeActivity">
 
-    <!--<ImageButton-->
-    <!--android:id="@+id/backToMain"-->
-    <!--android:layout_width="56dp"-->
-    <!--android:layout_height="56dp"-->
-    <!--android:layout_marginStart="16dp"-->
-    <!--android:layout_marginLeft="16dp"-->
-    <!--android:layout_marginTop="16dp"-->
-    <!--android:contentDescription="@android:string/cancel"-->
-    <!--app:layout_constraintStart_toStartOf="parent"-->
-    <!--app:layout_constraintTop_toTopOf="parent"-->
-    <!--app:srcCompat="?attr/actionModeCloseDrawable" />-->
+    <FrameLayout
+        android:id="@+id/frame"
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
 
-    <fragment
-        android:id="@+id/diary_fragment"
-        android:name="com.example.a15850.thediary.DiaryFragment"
-        android:layout_width="416dp"
-        android:layout_height="489dp"
-        android:layout_marginBottom="60dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout="@layout/fragment_diary_list"
-        tools:layout_editor_absoluteX="0dp" />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_alignParentTop="true"
+            android:background="@color/colorPrimary">
 
-    <Button
-        android:id="@+id/selectAllButton"
-        style="@style/select_all"
-        android:layout_width="90dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:text="@string/select_all"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:visibility="invisible"
-        app:layout_constraintBaseline_toBaselineOf="@+id/shareButton"
-        app:layout_constraintStart_toStartOf="parent" />
+        </android.support.v7.widget.Toolbar>
 
-    <Button
-        android:id="@+id/shareButton"
-        android:layout_width="90dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="46dp"
-        android:layout_marginLeft="46dp"
-        android:layout_marginEnd="46dp"
-        android:layout_marginRight="46dp"
-        android:layout_marginBottom="20dp"
-        android:text="@string/share"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/deleteButton"
-        app:layout_constraintStart_toEndOf="@+id/selectAllButton" />
+        <ViewStub
+            android:id="@+id/cab_stub"
+            android:layout_width="match_parent"
+            android:layout_height="48dp" />
+    </FrameLayout>
 
-    <Button
-        android:id="@+id/deleteButton"
-        android:layout_width="90dp"
-        android:layout_height="39dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:text="@string/delete"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:visibility="invisible"
-        app:layout_constraintBaseline_toBaselineOf="@+id/shareButton"
-        app:layout_constraintEnd_toEndOf="parent" />
-</android.support.constraint.ConstraintLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/frame"/>
+</RelativeLayout>
+
+

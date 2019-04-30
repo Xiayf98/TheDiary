@@ -26,6 +26,7 @@ public class DiaryFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    private List<Boolean> listCheck;
 
 
     //private DiaryContent diaryContent;
@@ -146,9 +147,9 @@ public class DiaryFragment extends Fragment {
         // TODO: Update argument type and name
         void onListFragmentInteraction(DiaryContent.DiaryItem item);
     }
-    public interface OnListFragmentInteractionContronller {
-        // TODO: Update argument type and name
-        void onListFragmentController(boolean show);
-    }
+//    public interface OnListFragmentInteractionContronller {
+//        // TODO: Update argument type and name
+//        void onListFragmentController(boolean show);
+//    }
 }
 
