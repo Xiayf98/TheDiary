@@ -41,6 +41,11 @@
                 android:layout_height="wrap_content"
                 android:text="give a like"
                 android:textColor="@color/colorText"/>
+            <!--<ImageButton-->
+                <!--android:id="@+id/give_a_like"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@drawable/vector_drawable_baseline_favorite_border___px"/>-->
         </LinearLayout>
 
         <ImageView

@@ -4,12 +4,16 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -60,6 +64,23 @@ public class ShareActivity extends AppCompatActivity {
 //        });
         mCardAdapter = new CardPagerAdapter();
         collectDiaryAndSetAdapter();//new
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater inflater=getMenuInflater();
+        inflater.inflate(R.menu.share_menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case R.id.share_to_main://跳转至main界面
+                Intent intent_share_main=new Intent(ShareActivity.this,MainActivity.class);
+                startActivity(intent_share_main);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
     public void dealFollowingTasks(){//new
         cardNum=cardItemList.size();//new
@@ -117,7 +138,6 @@ public class ShareActivity extends AppCompatActivity {
                 Toast.makeText(ShareActivity.this,"收集完毕",Toast.LENGTH_SHORT).show();
                 dealFollowingTasks();
             }
-
             @Override
             public void onError(int i, String s) {
                 Toast.makeText(ShareActivity.this,"日记收集失败", Toast.LENGTH_SHORT).show();
