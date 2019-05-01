@@ -49,14 +49,14 @@ public class EditActivity extends AppCompatActivity {
 
         //日记篇数查询显示
         BmobUser a_bmobUser=BmobUser.getCurrentUser(EditActivity.this);
-        if(a_bmobUser!=null)
-        {
-            diaryNum=a_bmobUser.getObjectByKey(EditActivity.this, "diaryNum").toString();
-            tickerView.setText(diaryNum);
-        }else{
-            tickerView.setText("?");
+        if(a_bmobUser!=null) {
+            if (a_bmobUser.getObjectByKey(EditActivity.this, "diaryNum") != null) {
+                diaryNum = a_bmobUser.getObjectByKey(EditActivity.this, "diaryNum").toString();
+                tickerView.setText(diaryNum);
+            } else {
+                tickerView.setText("0");
+            }
         }
-
         //EditText
         editTextTitle = (EditText) findViewById(R.id.editText_editTitle);
         editTextBody=(EditText)findViewById(R.id.editText_editBody);
