@@ -23,11 +23,10 @@ public class HomeActivity extends AppCompatActivity
     private DiaryFragment.OnListFragmentInteractionContronller onListFragmentInteractionContronller;
     private FloatingActionButton backToMainPageButton;//返回main界面的按钮
     private ToggleButton editOrDoneButton;//编辑按钮（用于多选删除或多选分享）
-    private Button selectAllButton;
+    private ToggleButton selectAllButton;
     private Button shareButton;
     private Button deleteButton;
     private CheckBox checkBox;
-//    public boolean flage;
 
     private DiaryFragment diaryFragment;
 
@@ -40,8 +39,8 @@ public class HomeActivity extends AppCompatActivity
         //创建Home时实例化diaryFragment，方便之后使用
         diaryFragment=(DiaryFragment)getSupportFragmentManager().findFragmentById(R.id.diary_fragment);
         //全选按钮
-        selectAllButton=(Button)findViewById(R.id.selectAllButton);
-        selectAllButton.setOnClickListener(new selectAllButtonListener());
+        selectAllButton=(ToggleButton)findViewById(R.id.selectAllButton);
+        selectAllButton.setOnCheckedChangeListener(new selectAllButtonListener());
         //分享按钮
         shareButton=(Button)findViewById(R.id.shareButton);
         shareButton.setOnClickListener(new shareButtonListener());
@@ -85,6 +84,7 @@ public class HomeActivity extends AppCompatActivity
                 return true;
             case R.id.home_edit_finish:
                 selectAllButton.setVisibility(View.INVISIBLE);
+                selectAllButton.setChecked(false);
                 shareButton.setVisibility(View.INVISIBLE);
                 deleteButton.setVisibility(View.INVISIBLE);
                 //diaryFragment=(DiaryFragment)getSupportFragmentManager().findFragmentById(R.id.diary_fragment);
@@ -102,15 +102,22 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
-    private class selectAllButtonListener implements OnClickListener {
-
-        public void onClick(View v) {
-            int size3=DiaryContent.CHECKS.size();
-            for(int i=0;i<size3;++i){
-                DiaryContent.CHECKS.set(i,true);
+    private class selectAllButtonListener implements CompoundButton.OnCheckedChangeListener {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if(isChecked){
+                int size3=DiaryContent.CHECKS.size();
+                for(int i=0;i<size3;++i){
+                    DiaryContent.CHECKS.set(i,true);
+                }
+                diaryFragment.updateRecyclerViewState();
+            }else{
+                int size3=DiaryContent.CHECKS.size();
+                for(int i=0;i<size3;++i){
+                    DiaryContent.CHECKS.set(i,false);
+                }
+                diaryFragment.updateRecyclerViewState();
             }
-            diaryFragment.updateRecyclerViewState();
-
         }
     }
 
@@ -123,6 +130,7 @@ public class HomeActivity extends AppCompatActivity
             }
             diaryFragment.updateRecyclerViewState();
             selectAllButton.setVisibility(View.INVISIBLE);
+            selectAllButton.setChecked(false);
             shareButton.setVisibility(View.INVISIBLE);
             deleteButton.setVisibility(View.INVISIBLE);
 
@@ -150,6 +158,7 @@ public class HomeActivity extends AppCompatActivity
 
             diaryFragment.updateRecyclerViewState();
             selectAllButton.setVisibility(View.INVISIBLE);
+            selectAllButton.setChecked(false);
             shareButton.setVisibility(View.INVISIBLE);
             deleteButton.setVisibility(View.INVISIBLE);
 
