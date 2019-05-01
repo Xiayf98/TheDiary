@@ -134,12 +134,6 @@ public class DiaryFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
-//    public void showCheckBox(){
-//        mAdapter.showCheckBox();
-//    }
-//    public void hideCheckBox(){
-//        mAdapter.hideCheckBox();
-//    }
 
 
     /**
@@ -155,18 +149,17 @@ public class DiaryFragment extends Fragment {
     public void updateRecyclerViewState(){
         mAdapter.notifyDataSetChanged();
     }
-    public void deleteOnAdapter(int position,int startPosition,int itemCount){
-        mAdapter.notifyItemRemoved(position);
-        mAdapter.notifyItemRangeChanged(startPosition,itemCount);
-    }
+//    public void deleteOnAdapter(int position,int startPosition,int itemCount){
+//        mAdapter.notifyItemRemoved(position);
+//        mAdapter.notifyItemRangeChanged(startPosition,itemCount);
+//    }
 
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
         void onListFragmentInteraction(DiaryContent.DiaryItem item);
     }
-    public interface OnListFragmentInteractionContronller {
-        // TODO: Update argument type and name
-        void onListFragmentController(boolean show);
-    }
+//    public interface OnListFragmentInteractionContronller {
+//        void onListFragmentController(boolean show);
+//    }
 }
 

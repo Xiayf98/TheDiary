@@ -39,7 +39,7 @@ public class ShareActivity extends AppCompatActivity {
     String inputTextTitle;//日记标题
     String inputTextbody;//日记正文
     int cardNum;//公开日记的数量
-    private static List<CardItem> cardItemList=new ArrayList<>();//new
+    private final List<CardItem> cardItemList=new ArrayList<>();//new
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,8 +93,8 @@ public class ShareActivity extends AppCompatActivity {
                 //从数据库中获取第i篇公开日记的标题和正文
                 //分别传入inputTextTitle和inputTextBody中
                 //这里先给两个字符串赋值进行测试
-                inputTextTitle = "Spring";
-                inputTextbody = "Have a good day!";
+                //inputTextTitle = "Spring";
+                //inputTextbody = "Have a good day!";
 
                 CardItem mItem = cardItemList.get(i);
                 mCardAdapter.addCardItem(mItem);
@@ -112,6 +112,7 @@ public class ShareActivity extends AppCompatActivity {
         this.cardItemList.add(cardItem);
     }
     public void collectDiaryAndSetAdapter(){
+        cardItemList.clear();
         BmobQuery<Diary> diaryBmobQuery=new BmobQuery<Diary>();
         diaryBmobQuery.addWhereEqualTo("open",true);
         //diaryBmobQuery.setLimit(1);

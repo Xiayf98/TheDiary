@@ -20,13 +20,12 @@ import com.example.a15850.thediary.database.Diary;
 
 public class HomeActivity extends AppCompatActivity
         implements DiaryFragment.OnListFragmentInteractionListener {
-    private DiaryFragment.OnListFragmentInteractionContronller onListFragmentInteractionContronller;
-    private FloatingActionButton backToMainPageButton;//返回main界面的按钮
-    private ToggleButton editOrDoneButton;//编辑按钮（用于多选删除或多选分享）
+    //private FloatingActionButton backToMainPageButton;//返回main界面的按钮
+    //private ToggleButton editOrDoneButton;//编辑按钮（用于多选删除或多选分享）
     private ToggleButton selectAllButton;
     private Button shareButton;
     private Button deleteButton;
-    private CheckBox checkBox;
+
 
     private DiaryFragment diaryFragment;
 
@@ -47,9 +46,7 @@ public class HomeActivity extends AppCompatActivity
         //删除按钮
         deleteButton=(Button)findViewById(R.id.deleteButton);
         deleteButton.setOnClickListener(new deleteButtonListener());
-        //复选框
-        checkBox=(CheckBox)findViewById(R.id.check_state);
-        //diaryFragment=new DiaryFragment();
+
     }
 
     //创建Menu
@@ -65,6 +62,7 @@ public class HomeActivity extends AppCompatActivity
         switch (item.getItemId()){
             case R.id.home_to_main://跳转至main界面
                 Intent intent_home_main = new Intent(HomeActivity.this,MainActivity.class);
+                intent_home_main.putExtra("queryMyDiaryAgain2",true);
                 startActivity(intent_home_main);
                 return true;
             case R.id.home_edit:
@@ -174,9 +172,11 @@ public class HomeActivity extends AppCompatActivity
     public void onListFragmentInteraction(DiaryContent.DiaryItem item) {
         //这里实现点击其中的一项转到相应的查看界面，
         // 查看的具体内容由item的信息提供（之后须将item信息加入Intent），启动edit界面时需要接收这个信息
-        Intent readThisDiary=new Intent(HomeActivity.this,EditActivity.class);
-        //请将‘MainActivity’改成需要查看的Activity（例如edit界面）：）
 
+        String tellEditThisIsReading="read";
+        String [] diaryInformation={tellEditThisIsReading,item.title,item.content,item.real_diary_id};
+        Intent readThisDiary=new Intent(HomeActivity.this,EditActivity.class);
+        readThisDiary.putExtra("willBeRead",diaryInformation);
         startActivity(readThisDiary);
 
     }
