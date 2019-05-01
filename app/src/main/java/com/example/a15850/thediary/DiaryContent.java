@@ -17,6 +17,7 @@ public class DiaryContent {
      * An array of diary items.
      */
     public static final List<DiaryItem> ITEMS = new ArrayList<DiaryItem>();
+    public static final List<Boolean> CHECKS=new ArrayList<>();//记录勾选状态
 
     /**
      * A map of sample diary items, by ID.
@@ -29,6 +30,7 @@ public class DiaryContent {
         // Add some sample items.
         for (int i = 1; i <= COUNT; i++) {
             addItem(createDiaryItem(i));
+            CHECKS.add(false);
         }
     }
 
@@ -59,6 +61,7 @@ public class DiaryContent {
         public final String content;
         public final String details;
         public boolean edit;
+
 
         public DiaryItem(String id, String content, String details,boolean edit) {
             this.id = id;

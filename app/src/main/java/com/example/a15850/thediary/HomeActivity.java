@@ -13,7 +13,10 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import com.example.a15850.thediary.database.Diary;
 
 public class HomeActivity extends AppCompatActivity
         implements DiaryFragment.OnListFragmentInteractionListener {
@@ -34,6 +37,8 @@ public class HomeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);//设置要显示的视图
 
+        //创建Home时实例化diaryFragment，方便之后使用
+        diaryFragment=(DiaryFragment)getSupportFragmentManager().findFragmentById(R.id.diary_fragment);
         //全选按钮
         selectAllButton=(Button)findViewById(R.id.selectAllButton);
         selectAllButton.setOnClickListener(new selectAllButtonListener());
@@ -67,8 +72,7 @@ public class HomeActivity extends AppCompatActivity
                 selectAllButton.setVisibility(View.VISIBLE);
                 shareButton.setVisibility(View.VISIBLE);
                 deleteButton.setVisibility(View.VISIBLE);
-//                diaryFragment.showCheckBox();
-                diaryFragment=(DiaryFragment)getSupportFragmentManager().findFragmentById(R.id.diary_fragment);
+                //diaryFragment=(DiaryFragment)getSupportFragmentManager().findFragmentById(R.id.diary_fragment);
                 int size1=DiaryContent.ITEMS.size();
                 for(int i=0;i<size1;++i){
                     DiaryContent.ITEMS.get(i).setEdit(true);
@@ -83,8 +87,7 @@ public class HomeActivity extends AppCompatActivity
                 selectAllButton.setVisibility(View.INVISIBLE);
                 shareButton.setVisibility(View.INVISIBLE);
                 deleteButton.setVisibility(View.INVISIBLE);
-//                diaryFragment.hideCheckBox();
-                diaryFragment=(DiaryFragment)getSupportFragmentManager().findFragmentById(R.id.diary_fragment);
+                //diaryFragment=(DiaryFragment)getSupportFragmentManager().findFragmentById(R.id.diary_fragment);
                 int size2=DiaryContent.ITEMS.size();
                 for(int i=0;i<size2;++i){
                     DiaryContent.ITEMS.get(i).setEdit(false);
@@ -102,21 +105,58 @@ public class HomeActivity extends AppCompatActivity
     private class selectAllButtonListener implements OnClickListener {
 
         public void onClick(View v) {
-            //多选功能尚未实现
-            //这里需要后端函数
+            int size3=DiaryContent.CHECKS.size();
+            for(int i=0;i<size3;++i){
+                DiaryContent.CHECKS.set(i,true);
+            }
+            diaryFragment.updateRecyclerViewState();
 
         }
     }
 
     private  class shareButtonListener implements OnClickListener{
         public void onClick(View v) {
-            //后端
+            int size4=DiaryContent.ITEMS.size();
+            for(int i=0;i<size4;++i){
+                DiaryContent.CHECKS.set(i,false);
+                DiaryContent.ITEMS.get(i).setEdit(false);
+            }
+            diaryFragment.updateRecyclerViewState();
+            selectAllButton.setVisibility(View.INVISIBLE);
+            shareButton.setVisibility(View.INVISIBLE);
+            deleteButton.setVisibility(View.INVISIBLE);
+
+            //数据库相应diary open设为true
+
+            Toast.makeText(HomeActivity.this, "分享成功:)", Toast.LENGTH_SHORT).show();
         }
     }
 
     private  class deleteButtonListener implements OnClickListener{
         public void onClick(View v) {
-            //后端
+            //显示界面中的删除
+            int size5=DiaryContent.CHECKS.size();
+            for(int i=size5 - 1;i >= 0;--i){
+                if(DiaryContent.CHECKS.get(i)){
+                    DiaryContent.ITEMS.remove(i);
+                    DiaryContent.CHECKS.remove(i);
+                    //--size5;
+                    //diaryFragment.deleteOnAdapter(i+1,1,size5);
+                   //--i;
+                }else{
+                    DiaryContent.ITEMS.get(i).setEdit(false);
+                }
+            }
+
+            diaryFragment.updateRecyclerViewState();
+            selectAllButton.setVisibility(View.INVISIBLE);
+            shareButton.setVisibility(View.INVISIBLE);
+            deleteButton.setVisibility(View.INVISIBLE);
+
+            //数据库中的删除
+
+            Toast.makeText(HomeActivity.this, "已删除", Toast.LENGTH_SHORT).show();
+
         }
     }
 

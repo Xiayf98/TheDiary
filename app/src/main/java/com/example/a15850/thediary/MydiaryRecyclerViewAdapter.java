@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.example.a15850.thediary.DiaryFragment.OnListFragmentInteractionListener;
@@ -22,6 +23,7 @@ import java.util.List;
 public class MydiaryRecyclerViewAdapter extends
         RecyclerView.Adapter<MydiaryRecyclerViewAdapter.ViewHolder> implements DiaryFragment.OnListFragmentInteractionContronller{
     private final List<DiaryItem> mValues;
+    private final List<Boolean> mChecks;
     private final OnListFragmentInteractionListener mListener;
 //    private List<CheckBox> checkBoxes=new ArrayList<>();
 //    private int boxCounter=0;
@@ -30,8 +32,9 @@ public class MydiaryRecyclerViewAdapter extends
 
 
     // Provide a suitable constructor
-    public MydiaryRecyclerViewAdapter(List<DiaryItem> items, OnListFragmentInteractionListener listener) {
+    public MydiaryRecyclerViewAdapter(List<DiaryItem> items, List<Boolean> checks,OnListFragmentInteractionListener listener) {
         mValues = items;
+        mChecks=checks;
         mListener = listener;
       //  boxCounter=items.size();
     }
@@ -53,12 +56,15 @@ public class MydiaryRecyclerViewAdapter extends
         holder.mItem = mValues.get(position);
         holder.mIdView.setText(mValues.get(position).id);
         holder.mContentView.setText(mValues.get(position).content);
+        holder.checkBox.setChecked(mChecks.get(position));
+        holder.position=position;
         if(holder.mItem.edit){
             holder.checkBox.setVisibility(View.VISIBLE);
         }else{
             holder.checkBox.setVisibility(View.INVISIBLE);
         }
-//        checkBoxes.add(holder.checkBox);
+
+
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,12 +107,13 @@ public class MydiaryRecyclerViewAdapter extends
     }
     /*The views in the list are represented by view holder objects.
         These objects are instances of a class you define by extending RecyclerView.ViewHolder.*/
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder{
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
         public DiaryItem mItem;
         public CheckBox checkBox;
+        public int position;
 
         public ViewHolder(View view) {
             super(view);
@@ -114,6 +121,20 @@ public class MydiaryRecyclerViewAdapter extends
             mIdView = (TextView) view.findViewById(R.id.item_number);
             mContentView = (TextView) view.findViewById(R.id.content);
             checkBox=(CheckBox)view.findViewById(R.id.check_state);
+            checkBox.setOnClickListener(new CheckBoxChangeListener());
+        }
+
+        private class CheckBoxChangeListener implements View.OnClickListener {
+            @Override
+            public void onClick(View v) {
+                if(DiaryContent.CHECKS.get(position)){
+                    checkBox.setChecked(false);
+                    DiaryContent.CHECKS.set(position,false);
+                }else{
+                    checkBox.setChecked(true);
+                    DiaryContent.CHECKS.set(position,true);
+                }
+            }
         }
 
         @Override
@@ -121,4 +142,6 @@ public class MydiaryRecyclerViewAdapter extends
             return super.toString() + " '" + mContentView.getText() + "'";
         }
     }
+
+
 }

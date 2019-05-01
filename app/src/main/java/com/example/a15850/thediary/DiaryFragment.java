@@ -97,7 +97,7 @@ public class DiaryFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));//The view will be connected to a layout manager
             }
-            mAdapter=new MydiaryRecyclerViewAdapter(DiaryContent.ITEMS,mListener);
+            mAdapter=new MydiaryRecyclerViewAdapter(DiaryContent.ITEMS,DiaryContent.CHECKS,mListener);
             recyclerView.setAdapter(mAdapter);
             Context temp=getActivity();
             Toast.makeText(temp,"适配器更新成功1",Toast.LENGTH_SHORT).show();
@@ -109,7 +109,7 @@ public class DiaryFragment extends Fragment {
     public void onResume(){
         super.onResume();
         if(updateAdapter){
-            mAdapter=new MydiaryRecyclerViewAdapter(DiaryContent.ITEMS,mListener);
+            mAdapter=new MydiaryRecyclerViewAdapter(DiaryContent.ITEMS,DiaryContent.CHECKS,mListener);
             recyclerView.setAdapter(mAdapter);
             Context temp=getActivity();
             Toast.makeText(temp,"适配器更新成功2",Toast.LENGTH_SHORT).show();
@@ -140,11 +140,7 @@ public class DiaryFragment extends Fragment {
 //    public void hideCheckBox(){
 //        mAdapter.hideCheckBox();
 //    }
-    @Override
-    public void onPause(){
-        super.onPause();
-        updateAdapter=true;
-    }
+
 
     /**
      * This interface must be implemented by activities that contain this
@@ -158,6 +154,10 @@ public class DiaryFragment extends Fragment {
      */
     public void updateRecyclerViewState(){
         mAdapter.notifyDataSetChanged();
+    }
+    public void deleteOnAdapter(int position,int startPosition,int itemCount){
+        mAdapter.notifyItemRemoved(position);
+        mAdapter.notifyItemRangeChanged(startPosition,itemCount);
     }
 
     public interface OnListFragmentInteractionListener {
