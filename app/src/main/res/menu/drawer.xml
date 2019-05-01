@@ -3,14 +3,19 @@
     <group android:checkableBehavior="single">
 
         <item
-            android:id="@+id/navigation_notifications"
-            android:icon="@drawable/ic_notifications_black_24dp"
-            android:title="@string/title_notifications" />
+            android:id="@+id/navigation_portrait"
+            android:icon="@drawable/vector_drawable_round_face_black___px"
+            android:title="Your portrait" />
 
         <item
-        android:id="@+id/navigation_settings"
-        android:icon="@drawable/vector_drawable_round_settings___px"
-        android:title="Settings" />
+            android:id="@+id/navigation_id"
+            android:icon="@drawable/vector_drawable_baseline_perm_identity___px"
+            android:title="Your name" />
+
+        <item
+        android:id="@+id/navigation_password"
+        android:icon="@drawable/vector_drawable_baseline_fingerprint___px"
+        android:title="Your password" />
 
         <item
         android:id="@+id/navigation_logout"
