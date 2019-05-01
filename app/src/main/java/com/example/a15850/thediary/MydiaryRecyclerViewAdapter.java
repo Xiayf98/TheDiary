@@ -1,112 +1,124 @@
 package com.example.a15850.thediary;
 
-import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.a15850.thediary.DiaryFragment.OnListFragmentInteractionListener;
+import com.example.a15850.thediary.DiaryContent.DiaryItem;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Gao on 2016/7/1.
- *
+ * {@link RecyclerView.Adapter} that can display a {@link DiaryItem} and makes a call to the
+ * specified {@link OnListFragmentInteractionListener}.
+ * TODO: Replace the implementation with code for your data type.
  */
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.PlateViewHolder> {
+public class MydiaryRecyclerViewAdapter extends
+        RecyclerView.Adapter<MydiaryRecyclerViewAdapter.ViewHolder> implements DiaryFragment.OnListFragmentInteractionContronller{
+    private final List<DiaryItem> mValues;
+    private final OnListFragmentInteractionListener mListener;
+//    private List<CheckBox> checkBoxes=new ArrayList<>();
+//    private int boxCounter=0;
+//    public CheckBox checkBox;
 
-    private List<String> list;
-    private List<Boolean> listCheck;
-    private Context context;
-    boolean isShow=false;
 
-    public RecyclerAdapter(List<String> list, Context context, List<Boolean> listCheck){
-        this.list=list;
-        this.context=context;
-        this.listCheck=listCheck;
+
+    // Provide a suitable constructor
+    public MydiaryRecyclerViewAdapter(List<DiaryItem> items, OnListFragmentInteractionListener listener) {
+        mValues = items;
+        mListener = listener;
+      //  boxCounter=items.size();
     }
 
-
+    // Create new views (invoked by the layout manager)
     @Override
-    public PlateViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(context).inflate(R.layout.item,parent,false);
-        return new PlateViewHolder(view);
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.fragment_diary, parent, false);
+        return new ViewHolder(view);
     }
 
+    /*The adapter binds the view holders to their data.
+    It does this by assigning the view holder to a position,
+    and calling the adapter's onBindViewHolder() method.*/
+    // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(PlateViewHolder holder, int position) {
-        holder.position=position;
-        holder.textView.setText(position+"");
-        holder.checkBox.setChecked(listCheck.get(position));
-        if(isShow){
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        holder.mItem = mValues.get(position);
+        holder.mIdView.setText(mValues.get(position).id);
+        holder.mContentView.setText(mValues.get(position).content);
+        if(holder.mItem.edit){
             holder.checkBox.setVisibility(View.VISIBLE);
-        }else {
-            holder.checkBox.setVisibility(View.GONE);
+        }else{
+            holder.checkBox.setVisibility(View.INVISIBLE);
         }
-    }
-
-    @Override
-    public int getItemCount() {
-        return list.size();
-    }
-
-    public class PlateViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener,View.OnClickListener,CompoundButton.OnCheckedChangeListener{
-        private TextView textView;
-        private CheckBox checkBox;
-        private LinearLayout rootView;
-        private int position;
-        public PlateViewHolder(View itemView) {
-            super(itemView);
-            rootView= (LinearLayout) itemView.findViewById(R.id.item_root);
-            textView= (TextView) itemView.findViewById(R.id.item_text);
-            checkBox= (CheckBox) itemView.findViewById(R.id.item_checkbox);
-
-            checkBox.setOnCheckedChangeListener(this);
-            rootView.setOnClickListener(this);
-            rootView.setOnLongClickListener(this);
-        }
-
-        @Override
-        public boolean onLongClick(View v) {
-            if(onItemClickListener!=null){
-                return onItemClickListener.setOnItemLongClick(position);
-            }
-            return false;
-        }
-
-        @Override
-        public void onClick(View v) {
-            if(onItemClickListener!=null){
-                if(checkBox.isChecked()){
-                    checkBox.setChecked(false);
-                    onItemClickListener.setOnItemClick(position,false);
-                }else {
-                    checkBox.setChecked(true);
-                    onItemClickListener.setOnItemClick(position,true);
+//        checkBoxes.add(holder.checkBox);
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (null != mListener) {
+                    // Notify the active callbacks interface (the activity, if the
+                    // fragment is attached to one) that an item has been selected.
+                    mListener.onListFragmentInteraction(holder.mItem);
                 }
             }
+        });
+    }
+
+//    public void showCheckBox() {
+//        checkBox = (CheckBox) checkBox.findViewById(R.id.check_state);
+//        checkBox.setVisibility(View.VISIBLE);
+//    }
+//    public void hideCheckBox() {
+//
+//    }
+    @Override
+    public void onListFragmentController(boolean show){
+        if(show){
+//            checkBox = (CheckBox) checkBox.findViewById(R.id.check_state);
+////            checkBox.setVisibility(View.VISIBLE);
+//            for(int i=0;i<boxCounter;++i){
+//                checkBoxes.get(i).setVisibility(View.VISIBLE);
+//            }
+        }
+        else{
+//            checkBox = (CheckBox) checkBox.findViewById(R.id.check_state);
+//            checkBox.setVisibility(View.INVISIBLE);
+//            for(int i=0;i<boxCounter;++i){
+//                checkBoxes.get(i).setVisibility(View.INVISIBLE);
+//            }
+        }
+    }
+    @Override
+    public int getItemCount() {
+        return mValues.size();
+    }
+    /*The views in the list are represented by view holder objects.
+        These objects are instances of a class you define by extending RecyclerView.ViewHolder.*/
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        public final View mView;
+        public final TextView mIdView;
+        public final TextView mContentView;
+        public DiaryItem mItem;
+        public CheckBox checkBox;
+
+        public ViewHolder(View view) {
+            super(view);
+            mView = view;
+            mIdView = (TextView) view.findViewById(R.id.item_number);
+            mContentView = (TextView) view.findViewById(R.id.content);
+            checkBox=(CheckBox)view.findViewById(R.id.check_state);
         }
 
         @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            if(onItemClickListener!=null){
-                onItemClickListener.setOnItemCheckedChanged(position,isChecked);
-            }
+        public String toString() {
+            return super.toString() + " '" + mContentView.getText() + "'";
         }
-    }
-
-    public interface OnItemClickListener {
-        void setOnItemClick(int position, boolean isCheck);
-        boolean setOnItemLongClick(int position);
-        void setOnItemCheckedChanged(int position, boolean isCheck);
-    }
-
-    private OnItemClickListener onItemClickListener;
-
-    public void setOnItemListener(OnItemClickListener onItemClickListener){
-        this.onItemClickListener=onItemClickListener;
     }
 }

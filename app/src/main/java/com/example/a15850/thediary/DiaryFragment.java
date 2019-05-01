@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -26,12 +27,9 @@ public class DiaryFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
-    private List<Boolean> listCheck;
-
-
-    //private DiaryContent diaryContent;
     private MydiaryRecyclerViewAdapter mAdapter;
     private RecyclerView recyclerView;
+    private boolean updateAdapter=true;
     //private RecyclerView.LayoutManager layoutManager;//The view will be connected to a layout manager
 
     /**
@@ -101,10 +99,24 @@ public class DiaryFragment extends Fragment {
             }
             mAdapter=new MydiaryRecyclerViewAdapter(DiaryContent.ITEMS,mListener);
             recyclerView.setAdapter(mAdapter);
+            Context temp=getActivity();
+            Toast.makeText(temp,"适配器更新成功1",Toast.LENGTH_SHORT).show();
+            updateAdapter=false;
         }
         return view;
     }
-
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(updateAdapter){
+            mAdapter=new MydiaryRecyclerViewAdapter(DiaryContent.ITEMS,mListener);
+            recyclerView.setAdapter(mAdapter);
+            Context temp=getActivity();
+            Toast.makeText(temp,"适配器更新成功2",Toast.LENGTH_SHORT).show();
+        }else{
+            updateAdapter=true;
+        }
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -128,7 +140,11 @@ public class DiaryFragment extends Fragment {
 //    public void hideCheckBox(){
 //        mAdapter.hideCheckBox();
 //    }
-
+    @Override
+    public void onPause(){
+        super.onPause();
+        updateAdapter=true;
+    }
 
     /**
      * This interface must be implemented by activities that contain this
@@ -140,16 +156,17 @@ public class DiaryFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-
-
+    public void updateRecyclerViewState(){
+        mAdapter.notifyDataSetChanged();
+    }
 
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
         void onListFragmentInteraction(DiaryContent.DiaryItem item);
     }
-//    public interface OnListFragmentInteractionContronller {
-//        // TODO: Update argument type and name
-//        void onListFragmentController(boolean show);
-//    }
+    public interface OnListFragmentInteractionContronller {
+        // TODO: Update argument type and name
+        void onListFragmentController(boolean show);
+    }
 }
 

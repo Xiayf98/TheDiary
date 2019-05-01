@@ -38,7 +38,7 @@ public class DiaryContent {
     }
 
     private static DiaryItem createDiaryItem(int position) {
-        return new DiaryItem(String.valueOf(position), "Item " + position, makeDetails(position));
+        return new DiaryItem(String.valueOf(position), "Item " + position, makeDetails(position),false);
     }
 
     //
@@ -58,13 +58,17 @@ public class DiaryContent {
         public final String id;
         public final String content;
         public final String details;
+        public boolean edit;
 
-        public DiaryItem(String id, String content, String details) {
+        public DiaryItem(String id, String content, String details,boolean edit) {
             this.id = id;
             this.content = content;
             this.details = details;
+            this.edit=edit;
         }
-
+        public void setEdit(boolean edit){
+            this.edit=edit;
+        }
         @Override
         public String toString() {
             return content;
