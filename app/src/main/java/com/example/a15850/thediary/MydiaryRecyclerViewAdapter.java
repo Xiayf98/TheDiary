@@ -21,7 +21,7 @@ import java.util.List;
  * TODO: Replace the implementation with code for your data type.
  */
 public class MydiaryRecyclerViewAdapter extends
-        RecyclerView.Adapter<MydiaryRecyclerViewAdapter.ViewHolder> implements DiaryFragment.OnListFragmentInteractionContronller{
+        RecyclerView.Adapter<MydiaryRecyclerViewAdapter.ViewHolder>{
     private final List<DiaryItem> mValues;
     private final List<Boolean> mChecks;
     private final OnListFragmentInteractionListener mListener;
@@ -36,7 +36,6 @@ public class MydiaryRecyclerViewAdapter extends
         mValues = items;
         mChecks=checks;
         mListener = listener;
-      //  boxCounter=items.size();
     }
 
     // Create new views (invoked by the layout manager)
@@ -55,7 +54,7 @@ public class MydiaryRecyclerViewAdapter extends
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mContentView.setText(mValues.get(position).title);
         holder.checkBox.setChecked(mChecks.get(position));
         holder.position=position;
         if(holder.mItem.edit){
@@ -84,23 +83,7 @@ public class MydiaryRecyclerViewAdapter extends
 //    public void hideCheckBox() {
 //
 //    }
-    @Override
-    public void onListFragmentController(boolean show){
-        if(show){
-//            checkBox = (CheckBox) checkBox.findViewById(R.id.check_state);
-////            checkBox.setVisibility(View.VISIBLE);
-//            for(int i=0;i<boxCounter;++i){
-//                checkBoxes.get(i).setVisibility(View.VISIBLE);
-//            }
-        }
-        else{
-//            checkBox = (CheckBox) checkBox.findViewById(R.id.check_state);
-//            checkBox.setVisibility(View.INVISIBLE);
-//            for(int i=0;i<boxCounter;++i){
-//                checkBoxes.get(i).setVisibility(View.INVISIBLE);
-//            }
-        }
-    }
+
     @Override
     public int getItemCount() {
         return mValues.size();
