@@ -1,5 +1,6 @@
 package com.example.a15850.thediary;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.CardView;
@@ -90,25 +91,18 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
     }
 
     //点击改变点赞状态
-    public void giveALike(CardItem item,View view){
+    @SuppressLint("ClickableViewAccessibility")
+    public void giveALike(CardItem item, View view){
         final CardView cardView = (CardView) view.findViewById(R.id.cardView);
         final CardItem mItem=item;//new
-        cardView.setOnTouchListener(new View.OnTouchListener(){
+        cardView.setOnLongClickListener(new View.OnLongClickListener(){
             @Override
-            public boolean onTouch(View v,MotionEvent event) {
-                if(event.getAction()==MotionEvent.ACTION_DOWN && !isLiked){
-                    //change to the pressed_background
-//                    cardView.setCardBackgroundColor(android.graphics.Color.parseColor("#F3DBCF"));
-//                    isLiked=true;
-//                    likes++;
+            public boolean onLongClick(View v) {
+                if(!isLiked){
                     updateLikesRecord_increase(mItem.diaryID,cardView);//new
                 }
                 else{
-                    //change to the unpressed_background
-//                    cardView.setCardBackgroundColor(Color.WHITE);
-//                    isLiked=false;
-//                    likes--;
-                    updateLikesRecord_decrease(mItem.diaryID,cardView);//new
+                    updateLikesRecord_decrease(mItem.diaryID,cardView);
                 }
                 return false;
             }
