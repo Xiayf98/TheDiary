@@ -19,6 +19,10 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!--允许读取手机状态 用于创建BmobInstallation-->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!--declare use of camera features-->
+    <uses-feature
+        android:name="android.hardware.camera2"
+        android:required="false"/>
 
     <application
         android:allowBackup="true"
@@ -27,6 +31,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <!--在这里定义共享信息-->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.example.a15850.thediary.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <!--在这里定义了一个资源路径-->
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
+
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
