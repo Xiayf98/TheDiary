@@ -17,6 +17,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.example.a15850.thediary.database.Diary;
+import com.example.a15850.thediary.database.MyBmobUser;
 
 import cn.bmob.v3.listener.DeleteListener;
 import cn.bmob.v3.listener.UpdateListener;
@@ -32,12 +33,15 @@ public class HomeActivity extends AppCompatActivity
 
 
     private DiaryFragment diaryFragment;
+    private String currentUserID;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);//设置要显示的视图
+
+        currentUserID=(String)MyBmobUser.getObjectByKey(HomeActivity.this,"objectId");
 
         //创建Home时实例化diaryFragment，方便之后使用
         diaryFragment=(DiaryFragment)getSupportFragmentManager().findFragmentById(R.id.diary_fragment);
@@ -216,6 +220,19 @@ public class HomeActivity extends AppCompatActivity
                 deletingDiary.delete(HomeActivity.this,new DeleteListener() {
                     @Override
                     public void onSuccess() {
+                        MyBmobUser myBmobUser=new MyBmobUser();
+                        myBmobUser.increment("diaryNum",-1);
+                        myBmobUser.update(HomeActivity.this,getCurrentUserID() , new UpdateListener() {
+                            @Override
+                            public void onSuccess() {
+
+                            }
+
+                            @Override
+                            public void onFailure(int i, String s) {
+
+                            }
+                        });
 
                     }
 
@@ -241,5 +258,9 @@ public class HomeActivity extends AppCompatActivity
 
     public boolean getActionResult() {
         return actionResult;
+    }
+
+    public String getCurrentUserID(){
+        return currentUserID;
     }
 }
