@@ -24,6 +24,7 @@ public class MydiaryRecyclerViewAdapter extends
         RecyclerView.Adapter<MydiaryRecyclerViewAdapter.ViewHolder>{
     private final List<DiaryItem> mValues;
     private final List<Boolean> mChecks;
+    private final List<Boolean> mOpens;
     private final OnListFragmentInteractionListener mListener;
 //    private List<CheckBox> checkBoxes=new ArrayList<>();
 //    private int boxCounter=0;
@@ -32,9 +33,10 @@ public class MydiaryRecyclerViewAdapter extends
 
 
     // Provide a suitable constructor
-    public MydiaryRecyclerViewAdapter(List<DiaryItem> items, List<Boolean> checks,OnListFragmentInteractionListener listener) {
+    public MydiaryRecyclerViewAdapter(List<DiaryItem> items, List<Boolean> checks,List<Boolean> opens,OnListFragmentInteractionListener listener) {
         mValues = items;
         mChecks=checks;
+        mOpens=opens;
         mListener = listener;
     }
 
@@ -57,6 +59,11 @@ public class MydiaryRecyclerViewAdapter extends
         holder.mContentView.setText(mValues.get(position).title);
         holder.checkBox.setChecked(mChecks.get(position));
         holder.position=position;
+
+        if(mOpens.get(position)){
+            holder.mIdView.setBackgroundResource(R.color.colorPrimary);
+        }
+
         if(holder.mItem.edit){
             holder.checkBox.setVisibility(View.VISIBLE);
         }else{

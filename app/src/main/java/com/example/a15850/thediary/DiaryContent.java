@@ -18,6 +18,7 @@ public class DiaryContent {
      */
     public static final List<DiaryItem> ITEMS = new ArrayList<DiaryItem>();
     public static final List<Boolean> CHECKS=new ArrayList<>();//记录勾选状态
+    public static final List<Boolean> OPENS=new ArrayList<>();//记录公开状态
 
     /**
      * A map of sample diary items, by ID.
@@ -61,7 +62,8 @@ public class DiaryContent {
         public final String title;
         public final String content;
         public final String real_diary_id;
-        public boolean edit;
+        public boolean edit;//用于判断列表的状态是阅览还是编辑，涉及到复选框的显示，所以需要具体到每一项。
+
 
 
         public DiaryItem(String id,String title, String content, String real_diary_id,boolean edit) {

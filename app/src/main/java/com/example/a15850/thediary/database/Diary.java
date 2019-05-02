@@ -7,7 +7,7 @@ public class Diary extends BmobObject {
     private String nickname;
     private String title;
     private String body;
-    private boolean open=false;
+    private boolean open;
     private Integer likes_record=null;
 
     public String getEmail() {
