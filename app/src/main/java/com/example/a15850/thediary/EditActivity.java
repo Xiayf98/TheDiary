@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.a15850.thediary.database.Diary;
+import com.example.a15850.thediary.database.MyBmobUser;
 import com.robinhood.ticker.TickerUtils;
 import com.robinhood.ticker.TickerView;
 
@@ -48,15 +49,28 @@ public class EditActivity extends AppCompatActivity {
 //        });
 
         //日记篇数查询显示
-        BmobUser a_bmobUser=BmobUser.getCurrentUser(EditActivity.this);
-        if(a_bmobUser!=null)
-        {
-            diaryNum=a_bmobUser.getObjectByKey(EditActivity.this, "diaryNum").toString();
-            tickerView.setText(diaryNum);
-        }else{
-            tickerView.setText("?");
-        }
+        MyBmobUser a_bmobUser=MyBmobUser.getCurrentUser(EditActivity.this,MyBmobUser.class);
+        if(a_bmobUser!=null) {
+            if (a_bmobUser.getObjectByKey(EditActivity.this, "diaryNum") != null) {
+                diaryNum = a_bmobUser.getObjectByKey(EditActivity.this, "diaryNum").toString();
+                tickerView.setText(diaryNum);
+            } else {
+                MyBmobUser b_bmobUser=new MyBmobUser();
+                b_bmobUser.setDiaryNum(0);
+                b_bmobUser.update(EditActivity.this, a_bmobUser.getObjectId(), new UpdateListener() {
+                    @Override
+                    public void onSuccess() {
 
+                    }
+
+                    @Override
+                    public void onFailure(int i, String s) {
+
+                    }
+                });
+                tickerView.setText("0");
+            }
+        }
         //EditText
         editTextTitle = (EditText) findViewById(R.id.editText_editTitle);
         editTextBody=(EditText)findViewById(R.id.editText_editBody);
@@ -80,7 +94,7 @@ public class EditActivity extends AppCompatActivity {
                 inputTextTitle = editTextTitle.getText().toString();
                 inputTextBody = editTextBody.getText().toString();
 
-                BmobUser bmobUser=BmobUser.getCurrentUser(EditActivity.this);
+                MyBmobUser bmobUser=MyBmobUser.getCurrentUser(EditActivity.this,MyBmobUser.class);
                 int newDiaryNum=(int)bmobUser.getObjectByKey(EditActivity.this, "diaryNum")+1;
 
 
@@ -117,12 +131,14 @@ public class EditActivity extends AppCompatActivity {
     }
 
 
-    public void sendNewDiary(BmobUser bmobUser,String inputTextTitle,String inputTextBody){
+    public void sendNewDiary(MyBmobUser bmobUser,String inputTextTitle,String inputTextBody){
         Diary diary=new Diary();
         diary.setEmail(bmobUser.getEmail());
-        //diary.setNickname(" ");
+        diary.setNickname(bmobUser.getNickname());
         diary.setTitle(inputTextTitle);
         diary.setBody(inputTextBody);
+        diary.setOpen(false);
+        diary.setLikes_record(0);
         diary.save(EditActivity.this);
         bmobUser.increment("diaryNum");
         bmobUser.update(EditActivity.this);
@@ -132,6 +148,7 @@ public class EditActivity extends AppCompatActivity {
         Diary diary=new Diary();
         diary.setTitle(inputTextTitle);
         diary.setBody(inputTextBody);
+        //diary.setOpen(false);
         diary.update(EditActivity.this, diaryID, new UpdateListener() {
             @Override
             public void onSuccess() {

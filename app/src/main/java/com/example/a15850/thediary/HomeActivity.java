@@ -18,6 +18,9 @@ import android.widget.ToggleButton;
 
 import com.example.a15850.thediary.database.Diary;
 
+import cn.bmob.v3.listener.DeleteListener;
+import cn.bmob.v3.listener.UpdateListener;
+
 public class HomeActivity extends AppCompatActivity
         implements DiaryFragment.OnListFragmentInteractionListener {
     //private FloatingActionButton backToMainPageButton;//返回main界面的按钮
@@ -25,6 +28,7 @@ public class HomeActivity extends AppCompatActivity
     private ToggleButton selectAllButton;
     private Button shareButton;
     private Button deleteButton;
+    private boolean actionResult;
 
 
     private DiaryFragment diaryFragment;
@@ -75,10 +79,6 @@ public class HomeActivity extends AppCompatActivity
                     DiaryContent.ITEMS.get(i).setEdit(true);
                 }
                 diaryFragment.updateRecyclerViewState();
-//                if(onListFragmentInteractionContronller!=null){
-//                    onListFragmentInteractionContronller.onListFragmentController(true);
-//                }
-//                flage=true;
                 return true;
             case R.id.home_edit_finish:
                 selectAllButton.setVisibility(View.INVISIBLE);
@@ -121,7 +121,9 @@ public class HomeActivity extends AppCompatActivity
 
     private  class shareButtonListener implements OnClickListener{
         public void onClick(View v) {
+            //数据库相应diary open设为true
             int size4=DiaryContent.ITEMS.size();
+            shareDiary(size4);
             for(int i=0;i<size4;++i){
                 DiaryContent.CHECKS.set(i,false);
                 DiaryContent.ITEMS.get(i).setEdit(false);
@@ -131,17 +133,17 @@ public class HomeActivity extends AppCompatActivity
             selectAllButton.setChecked(false);
             shareButton.setVisibility(View.INVISIBLE);
             deleteButton.setVisibility(View.INVISIBLE);
-
-            //数据库相应diary open设为true
-
-            Toast.makeText(HomeActivity.this, "分享成功:)", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(HomeActivity.this, "分享成功:)", Toast.LENGTH_SHORT).show();
         }
     }
 
     private  class deleteButtonListener implements OnClickListener{
         public void onClick(View v) {
-            //显示界面中的删除
+            //数据库中的删除
             int size5=DiaryContent.CHECKS.size();
+            deleteDiary(size5);
+
+            //显示界面中的删除
             for(int i=size5 - 1;i >= 0;--i){
                 if(DiaryContent.CHECKS.get(i)){
                     DiaryContent.ITEMS.remove(i);
@@ -159,11 +161,7 @@ public class HomeActivity extends AppCompatActivity
             selectAllButton.setChecked(false);
             shareButton.setVisibility(View.INVISIBLE);
             deleteButton.setVisibility(View.INVISIBLE);
-
-            //数据库中的删除
-
             Toast.makeText(HomeActivity.this, "已删除", Toast.LENGTH_SHORT).show();
-
         }
     }
 
@@ -179,5 +177,69 @@ public class HomeActivity extends AppCompatActivity
         readThisDiary.putExtra("willBeRead",diaryInformation);
         startActivity(readThisDiary);
 
+    }
+
+    public void shareDiary(final int size){
+        setActionResult(true);
+        for(int i=0;i<size;++i) {
+            if (DiaryContent.CHECKS.get(i)) {//选中分享
+                final String diaryID = DiaryContent.ITEMS.get(i).real_diary_id;
+                Diary sharingDiary = new Diary();
+                sharingDiary.setOpen(true);
+                sharingDiary.update(HomeActivity.this, diaryID, new UpdateListener() {
+                    @Override
+                    public void onSuccess() {
+                        //Toast.makeText(HomeActivity.this, "分享成功:)", Toast.LENGTH_SHORT).show();
+                        //setActionResult(true);
+                    }
+
+                    @Override
+                    public void onFailure(int i, String s) {
+                        Toast.makeText(HomeActivity.this, "日记"+diaryID+"分享失败", Toast.LENGTH_SHORT).show();
+                        setActionResult(false);
+                    }
+                });
+            }
+        }
+        if(getActionResult()){
+            Toast.makeText(HomeActivity.this, "分享成功:)", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void deleteDiary(final int size){
+        setActionResult(true);
+        for(int i=0;i<size;++i) {
+            if (DiaryContent.CHECKS.get(i)) {//选中删除
+                String diaryID = DiaryContent.ITEMS.get(i).real_diary_id;
+                Diary deletingDiary = new Diary();
+                deletingDiary.setObjectId(diaryID);
+                deletingDiary.delete(HomeActivity.this,new DeleteListener() {
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onFailure(int i, String s) {
+                        //Toast.makeText(HomeActivity.this, "日记删除失败", Toast.LENGTH_SHORT).show();
+                        setActionResult(false);
+                    }
+                });
+
+            }
+        }
+        if(getActionResult()){
+            Toast.makeText(HomeActivity.this, "已删除", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(HomeActivity.this, "日记删除失败", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void setActionResult(boolean result){
+        this.actionResult=result;
+    }
+
+    public boolean getActionResult() {
+        return actionResult;
     }
 }

@@ -20,6 +20,7 @@ import android.support.design.widget.NavigationView;
 import android.widget.Toast;
 
 import com.example.a15850.thediary.database.Diary;
+import com.example.a15850.thediary.database.MyBmobUser;
 
 import java.util.List;
 import java.util.Map;
@@ -97,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.navigation_settings:
                         break;
                     case R.id.navigation_logout:
+                        MyBmobUser.logOut(MainActivity.this);
+                        Toast.makeText(MainActivity.this, "已退出登录", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(MainActivity.this,LoginActivity.class);
                         startActivity(intent);
                         CommonAction.getInstance().OutSign();
@@ -130,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
         DiaryContent.ITEMS.clear();
         DiaryContent.CHECKS.clear();
 
-        currentUserEmail= (String) BmobUser.getObjectByKey(MainActivity.this,"email");
+        currentUserEmail= (String) MyBmobUser.getObjectByKey(MainActivity.this,"email");
         BmobQuery<Diary> queryPersonalDiary=new BmobQuery<Diary>();
         queryPersonalDiary.addWhereEqualTo("email",currentUserEmail);
         //queryPersonalDiary.addWhereEqualTo("email","dzwblue@163.com");//only for test
@@ -150,12 +153,12 @@ public class MainActivity extends AppCompatActivity {
                         DiaryContent.CHECKS.add(false);
                     }
                 }else{
-                    for(int i=0;i<7;++i){
+
                         DiaryContent.DiaryItem diaryItem= new DiaryContent.DiaryItem("0",
                                 "日记为空:)", "无内容0",null,false);
                         DiaryContent.ITEMS.add(diaryItem);
                         DiaryContent.CHECKS.add(false);
-                    }
+
 
                 }
             }
