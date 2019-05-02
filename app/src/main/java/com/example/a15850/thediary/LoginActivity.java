@@ -34,6 +34,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.a15850.thediary.database.MyBmobUser;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +49,6 @@ import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.SQLQueryListener;
 import cn.bmob.v3.BmobUser;
-
 
 /**
  * A login screen that offers login via email/password.
@@ -82,6 +83,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bmob.initialize(this, "dbd8daec0aa8c1a0b71dcfb737dc0dbc");
+
+        //已登录的用户无需再次登陆
+        MyBmobUser buffer=MyBmobUser.getCurrentUser(LoginActivity.this,MyBmobUser.class);
+        if(buffer!=null){
+            Toast.makeText(LoginActivity.this, "欢迎回来:)", Toast.LENGTH_SHORT).show();
+            //销毁登录界面
+            LoginActivity.this.finish();
+            //跳转到主界面，登录成功的状态传递到 MainActivity 中
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        }
+
         setContentView(R.layout.activity_login);
 
         // Set up the login form.
@@ -206,6 +218,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             cancel = true;
         }
 
+        //网络连接检查
         Context context=getApplicationContext();
         ConnectivityManager connectivityManager=(ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if(connectivityManager==null){
@@ -248,11 +261,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             //检查所输邮箱地址是否已被注册,用于接下来的登录或者注册
             if (signTask==1)//该账号已被注册，执行登录操作
             {
-                BmobUser bmobUser = new BmobUser();
-                bmobUser.setEmail(email);
-                bmobUser.setUsername(email);
-                bmobUser.setPassword(password);
-                bmobUser.login(this, new SaveListener() {
+                MyBmobUser myBmobUser = new MyBmobUser();
+                myBmobUser.setEmail(email);
+                myBmobUser.setUsername(email);
+                myBmobUser.setPassword(password);
+                myBmobUser.login(this, new SaveListener() {
                     @Override
                     public void onSuccess() {
                         Toast.makeText(LoginActivity.this, "欢迎登陆:)", Toast.LENGTH_SHORT).show();
@@ -268,20 +281,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     }
                 });
 
-                /*showProgress(true);
-                mAuthTask = new UserLoginTask(email, password);
-                mAuthTask.execute((Void) null);
-                //销毁登录界面
-                LoginActivity.this.finish();
-                //跳转到主界面，登录成功的状态传递到 MainActivity 中
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));*/
-
             } else {
                 /*输入账号符合格式且不存在，执行注册操作*/
-                BmobUser newUser=new BmobUser();
+                MyBmobUser newUser=new MyBmobUser();
                 newUser.setEmail(email);
                 newUser.setUsername(email);
                 newUser.setPassword(password);
+                newUser.setNickname("nickname:)");
+                newUser.setDiaryNum(0);
                 newUser.signUp(this, new SaveListener() {
                     @Override
                     public void onSuccess() {
@@ -298,21 +305,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 "一个邮箱只能注册一个帐号哦，该邮箱已被注册啦", Toast.LENGTH_SHORT).show();}
 
                 });
-
-                /*userInformation.save(this,new SaveListener() {
-                    @Override
-                    public void onSuccess() {
-
-                        System.out.println("注册成功");
-                        //销毁登录界面
-                        LoginActivity.this.finish();
-                        //跳转到主界面，登录成功的状态传递到 MainActivity 中
-                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    }
-
-                    @Override
-                    public void onFailure(int i, String s) { }
-                });*/
             }
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
