@@ -28,6 +28,7 @@ public class HomeActivity extends AppCompatActivity
     private ToggleButton selectAllButton;
     private Button shareButton;
     private Button deleteButton;
+    private boolean actionResult;
 
 
     private DiaryFragment diaryFragment;
@@ -179,33 +180,40 @@ public class HomeActivity extends AppCompatActivity
     }
 
     public void shareDiary(final int size){
+        setActionResult(true);
         for(int i=0;i<size;++i) {
             if (DiaryContent.CHECKS.get(i)) {//选中分享
-                String diaryID = DiaryContent.ITEMS.get(i).real_diary_id;
+                final String diaryID = DiaryContent.ITEMS.get(i).real_diary_id;
                 Diary sharingDiary = new Diary();
                 sharingDiary.setOpen(true);
                 sharingDiary.update(HomeActivity.this, diaryID, new UpdateListener() {
                     @Override
                     public void onSuccess() {
-                        Toast.makeText(HomeActivity.this, "分享成功:)", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(HomeActivity.this, "分享成功:)", Toast.LENGTH_SHORT).show();
+                        //setActionResult(true);
                     }
 
                     @Override
                     public void onFailure(int i, String s) {
-                        Toast.makeText(HomeActivity.this, "分享失败", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(HomeActivity.this, "日记"+diaryID+"分享失败", Toast.LENGTH_SHORT).show();
+                        setActionResult(false);
                     }
                 });
             }
         }
+        if(getActionResult()){
+            Toast.makeText(HomeActivity.this, "分享成功:)", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void deleteDiary(final int size){
+        setActionResult(true);
         for(int i=0;i<size;++i) {
             if (DiaryContent.CHECKS.get(i)) {//选中删除
                 String diaryID = DiaryContent.ITEMS.get(i).real_diary_id;
                 Diary deletingDiary = new Diary();
                 deletingDiary.setObjectId(diaryID);
-                deletingDiary.delete(HomeActivity.this, new DeleteListener() {
+                deletingDiary.delete(HomeActivity.this,new DeleteListener() {
                     @Override
                     public void onSuccess() {
 
@@ -213,11 +221,25 @@ public class HomeActivity extends AppCompatActivity
 
                     @Override
                     public void onFailure(int i, String s) {
-
+                        //Toast.makeText(HomeActivity.this, "日记删除失败", Toast.LENGTH_SHORT).show();
+                        setActionResult(false);
                     }
                 });
 
             }
         }
+        if(getActionResult()){
+            Toast.makeText(HomeActivity.this, "已删除", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(HomeActivity.this, "日记删除失败", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void setActionResult(boolean result){
+        this.actionResult=result;
+    }
+
+    public boolean getActionResult() {
+        return actionResult;
     }
 }

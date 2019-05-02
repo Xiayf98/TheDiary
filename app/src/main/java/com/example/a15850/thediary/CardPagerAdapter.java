@@ -113,6 +113,7 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
     public void updateLikesRecord_increase(String diary_id, final CardView cardView){
         Diary diary=new Diary();
         diary.increment("likes_record");
+        diary.setOpen(true);
         diary.update(cardView.getContext(), diary_id, new UpdateListener() {
             @Override
             public void onSuccess() {
@@ -135,6 +136,7 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
     public void updateLikesRecord_decrease(String diary_id, final CardView cardView) {
         Diary diary = new Diary();
         diary.increment("likes_record",-1);
+        diary.setOpen(true);
         diary.update(cardView.getContext(), diary_id, new UpdateListener() {
             @Override
             public void onSuccess() {

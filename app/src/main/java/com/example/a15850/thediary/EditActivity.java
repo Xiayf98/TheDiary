@@ -134,9 +134,11 @@ public class EditActivity extends AppCompatActivity {
     public void sendNewDiary(MyBmobUser bmobUser,String inputTextTitle,String inputTextBody){
         Diary diary=new Diary();
         diary.setEmail(bmobUser.getEmail());
-        //diary.setNickname(" ");
+        diary.setNickname(bmobUser.getNickname());
         diary.setTitle(inputTextTitle);
         diary.setBody(inputTextBody);
+        diary.setOpen(false);
+        diary.setLikes_record(0);
         diary.save(EditActivity.this);
         bmobUser.increment("diaryNum");
         bmobUser.update(EditActivity.this);
@@ -146,6 +148,7 @@ public class EditActivity extends AppCompatActivity {
         Diary diary=new Diary();
         diary.setTitle(inputTextTitle);
         diary.setBody(inputTextBody);
+        //diary.setOpen(false);
         diary.update(EditActivity.this, diaryID, new UpdateListener() {
             @Override
             public void onSuccess() {
