@@ -22,10 +22,7 @@ import android.support.design.widget.NavigationView;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+
 
 
 public class MainActivity extends AppCompatActivity {
@@ -114,31 +111,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * 显示修改ID的对话框
-     */
-    protected void showSetIdDialog(){
-        final EditText edit_id = new EditText(this);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("设置id");
-        builder.setView(edit_id);
-        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String input = edit_id.getText().toString();
-                if(input.equals("")){
-                    Toast.makeText(getApplicationContext(),"修改内容为空噢"+input,Toast.LENGTH_LONG).show();
-                }
-                else{
 
-                    //将用户输入的 input 设置为当前用户的新id
-                    Toast.makeText(getApplicationContext(), "设置成功！" + input, Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-        builder.setNegativeButton("取消",null);
-        builder.show();
-    }
 
     /**
      * 显示修改密码的对话框
@@ -170,6 +143,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * 显示修改ID的对话框
+     */
+    protected void showSetIdDialog(){
+        final EditText edit_id = new EditText(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("设置id");
+        builder.setView(edit_id);
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String input = edit_id.getText().toString();
+                if(input.equals("")){
+                    Toast.makeText(getApplicationContext(),"修改内容为空噢"+input,Toast.LENGTH_LONG).show();
+                }
+                else{
+
+                    //将用户输入的 input 设置为当前用户的新id
+                    Toast.makeText(getApplicationContext(), "设置成功！" + input, Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        builder.setNegativeButton("取消",null);
+        builder.show();
+    }
+
+    /**
      * 显示修改头像的对话框
      */
     protected static final int CHOOSE_PICTURE = 0;
@@ -195,15 +194,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case TAKE_PICTURE: // 拍照
                         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        if(takePictureIntent.resolveActivity(getPackageManager() )!= null) {
-                            String filename = new SimpleDateFormat("yyyyMMdd-HHmmss", Locale.CHINA).format(new Date()) + ".png";
-                            File file = new File(Environment.getExternalStorageDirectory(), filename);
-                            mCurrentPhotoPath = file.getAbsolutePath();
 
-                            Uri fileUri = FileProvider.getUriForFile(getApplicationContext(), "com.example.a15850.thediary.fileProvider", file);
-                            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-                            startActivityForResult(takePictureIntent, TAKE_PICTURE);
-                        }
                         break;
                 }
             }
