@@ -15,8 +15,11 @@ import com.robinhood.ticker.TickerUtils;
 import com.robinhood.ticker.TickerView;
 
 import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 
 
@@ -103,10 +106,7 @@ public class EditActivity extends AppCompatActivity {
                     updateDiary(inputTextTitle,inputTextBody,fromHome[3]);
                 }else if(bmobUser!=null)
                 {//写日记
-                    sendNewDiary(bmobUser,inputTextTitle,inputTextBody);
-                    diaryNum=String.valueOf(newDiaryNum);
-                    tickerView.setText(diaryNum);
-
+                    sendNewDiary(bmobUser,inputTextTitle,inputTextBody,newDiaryNum,tickerView);
                     Toast.makeText(EditActivity.this,"发送成功",Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(EditActivity.this,"无法获取当前用户信息，编辑失败",Toast.LENGTH_SHORT).show();
@@ -131,7 +131,9 @@ public class EditActivity extends AppCompatActivity {
     }
 
 
-    public void sendNewDiary(MyBmobUser bmobUser,String inputTextTitle,String inputTextBody){
+    public void sendNewDiary(final MyBmobUser bmobUser,
+                             String inputTextTitle,String inputTextBody,
+                             final int newDiaryNum,final TickerView tickerView){
         Diary diary=new Diary();
         diary.setEmail(bmobUser.getEmail());
         diary.setNickname(bmobUser.getNickname());
@@ -139,9 +141,38 @@ public class EditActivity extends AppCompatActivity {
         diary.setBody(inputTextBody);
         diary.setOpen(false);
         diary.setLikes_record(0);
-        diary.save(EditActivity.this);
-        bmobUser.increment("diaryNum");
-        bmobUser.update(EditActivity.this);
+        diary.save(EditActivity.this, new SaveListener() {
+            @Override
+            public void onSuccess() {
+                //发送成功日记篇数+1
+                bmobUser.increment("diaryNum");
+                bmobUser.update(EditActivity.this);
+                Toast.makeText(EditActivity.this,"发送成功",Toast.LENGTH_SHORT).show();
+
+                //tickerView显示更新
+                diaryNum=String.valueOf(newDiaryNum);
+                tickerView.setText(diaryNum);
+
+                //为了展示tickerView的动态效果停1秒
+                TimerTask timerTask=new TimerTask() {
+                    @Override
+                    public void run() {
+                        //发送完毕跳转至Main界面
+                        Intent intent_edit_main = new Intent(EditActivity.this,MainActivity.class);
+                        intent_edit_main.putExtra("queryMyDiaryAgain",true);
+                        startActivity(intent_edit_main);
+                    }
+                };
+                Timer timer=new Timer();
+                timer.schedule(timerTask,1000);//2秒后执行run中的操作
+            }
+
+            @Override
+            public void onFailure(int i, String s) {
+                //发送失败不跳转
+                Toast.makeText(EditActivity.this, "发送失败", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void updateDiary(String inputTextTitle,String inputTextBody,String diaryID){
@@ -153,12 +184,15 @@ public class EditActivity extends AppCompatActivity {
             @Override
             public void onSuccess() {
                 Toast.makeText(EditActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
+                //修改成功跳转至Main
+                Intent intent_edit_main = new Intent(EditActivity.this,MainActivity.class);
+                intent_edit_main.putExtra("queryMyDiaryAgain",true);
+                startActivity(intent_edit_main);
             }
 
             @Override
             public void onFailure(int i, String s) {
                 Toast.makeText(EditActivity.this, "修改失败", Toast.LENGTH_SHORT).show();
-
             }
         });
     }
