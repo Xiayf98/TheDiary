@@ -36,8 +36,6 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-
-
         //显式1
         Button button_MainToEdit = (Button) findViewById(R.id.editButton_main);
         button_MainToEdit.setOnClickListener(new View.OnClickListener() {
@@ -79,9 +77,6 @@ public class MainActivity extends AppCompatActivity {
         mDrawerToggle.syncState();//初始化状态
         mDrawerLayout.addDrawerListener(mDrawerToggle);
 
-
-
-
         //设置导航栏NavigationView的点击事件
         NavigationView mNavigationView = (NavigationView) findViewById(R.id.navigation_main);
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -121,7 +116,6 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("设置密码");
         builder.setView(edit_pw);
-
         builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -139,7 +133,6 @@ public class MainActivity extends AppCompatActivity {
         });
         builder.setNegativeButton("取消",null);
         builder.show();
-
     }
 
     /**
@@ -201,10 +194,8 @@ public class MainActivity extends AppCompatActivity {
         });
         builder.create().show();
     }
-
     //关闭相机后自动调用
     //onActivityResult
-
 }
 
 
