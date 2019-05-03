@@ -1,5 +1,7 @@
 package com.example.a15850.thediary;
 //主Activity，应用的入口点，构建和运行应用时，系统会启动此 Activity 的实例并加载其布局。
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -28,6 +30,7 @@ import java.util.Map;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.FindListener;
+import android.widget.EditText;
 //import android.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity {
@@ -93,9 +96,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()){
-                    case R.id.navigation_notifications:
+                    case R.id.navigation_portrait:
                         break;
-                    case R.id.navigation_settings:
+                    case R.id.navigation_id:
+                        showSetIdDialog();
+                        break;
+                    case R.id.navigation_password:
+                        showSetPasswordDialog();
                         break;
                     case R.id.navigation_logout:
                         MyBmobUser.logOut(MainActivity.this);
@@ -111,6 +118,59 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    /**
+     * 显示修改ID的对话框
+     */
+    protected void showSetIdDialog(){
+        final EditText edit_id = new EditText(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("设置id");
+        builder.setView(edit_id);
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String input = edit_id.getText().toString();
+                if(input.equals("")){
+                    Toast.makeText(getApplicationContext(),"修改内容为空噢"+input,Toast.LENGTH_LONG).show();
+                }
+                else{
+
+                    //将用户输入的 input 设置为当前用户的新id
+                    Toast.makeText(getApplicationContext(), "设置成功！" + input, Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        builder.setNegativeButton("取消",null);
+        builder.show();
+    }
+
+    /**
+     * 显示修改密码的对话框
+     */
+    protected void showSetPasswordDialog(){
+        final EditText edit_pw = new EditText(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("设置密码");
+        builder.setView(edit_pw);
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String input = edit_pw.getText().toString();
+                if (input.equals("")) {
+                    Toast.makeText(getApplicationContext(), "修改内容为空噢" + input, Toast.LENGTH_LONG).show();
+                }
+                else{
+
+                    //在此处将用户输入的 input 设置为当前用户的新密码
+
+                    Toast.makeText(getApplicationContext(), "设置成功！", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        builder.setNegativeButton("取消",null);
+        builder.show();
     }
 
     @Override
