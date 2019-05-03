@@ -23,12 +23,13 @@
     <fragment
         android:id="@+id/diary_fragment"
         android:name="com.example.a15850.thediary.DiaryFragment"
-        android:layout_width="416dp"
+        android:layout_width="0dp"
         android:layout_height="489dp"
         android:layout_marginBottom="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout="@layout/fragment_diary_list"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout="@layout/fragment_diary_list" />
 
     <ToggleButton
         android:id="@+id/selectAllButton"
@@ -37,9 +38,9 @@
         android:layout_height="39dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
+        android:textAppearance="@style/TextAppearance.AppCompat"
         android:textOff="@string/select_all"
         android:textOn="deselect all"
-        android:textAppearance="@style/TextAppearance.AppCompat"
         android:visibility="invisible"
         app:layout_constraintBaseline_toBaselineOf="@+id/shareButton"
         app:layout_constraintStart_toStartOf="parent" />

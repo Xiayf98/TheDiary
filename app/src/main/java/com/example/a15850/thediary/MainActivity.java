@@ -30,6 +30,8 @@ import java.util.Map;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.UpdateListener;
+
 import android.widget.EditText;
 //import android.widget.Toolbar;
 
@@ -79,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
 
         //设置ToolBar
         final Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        String nickname=(String)MyBmobUser.getObjectByKey(MainActivity.this,"nickname");
+        mToolbar.setTitle(nickname);
         mToolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(mToolbar);
 
@@ -99,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.navigation_portrait:
                         break;
                     case R.id.navigation_id:
-                        showSetIdDialog();
+                        showSetIdDialog(mToolbar);
                         break;
                     case R.id.navigation_password:
                         showSetPasswordDialog();
@@ -123,22 +127,37 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 显示修改ID的对话框
      */
-    protected void showSetIdDialog(){
+    protected void showSetIdDialog(final Toolbar mToolbar){
         final EditText edit_id = new EditText(this);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("设置id");
+        builder.setTitle("Edit Your Nickname");
         builder.setView(edit_id);
         builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String input = edit_id.getText().toString();
+                final String input = edit_id.getText().toString();
                 if(input.equals("")){
-                    Toast.makeText(getApplicationContext(),"修改内容为空噢"+input,Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"修改内容为空噢,昵称不变"+input,Toast.LENGTH_LONG).show();
                 }
                 else{
+                    MyBmobUser editNickName=new MyBmobUser();
+                    editNickName.setNickname(input);
+                    MyBmobUser currentUser=MyBmobUser.getCurrentUser(MainActivity.this,MyBmobUser.class);
+                    editNickName.update(MainActivity.this, currentUser.getObjectId(), new UpdateListener() {
+                        @Override
+                        public void onSuccess() {
+                            //将用户输入的 input 设置为当前用户的新id
+                            //及时更新
+                            mToolbar.setTitle(input);
+                            Toast.makeText(getApplicationContext(), "设置成功！" + input, Toast.LENGTH_LONG).show();
+                        }
 
-                    //将用户输入的 input 设置为当前用户的新id
-                    Toast.makeText(getApplicationContext(), "设置成功！" + input, Toast.LENGTH_LONG).show();
+                        @Override
+                        public void onFailure(int i, String s) {
+                            Toast.makeText(MainActivity.this, "设置失败", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
                 }
             }
         });
@@ -152,20 +171,37 @@ public class MainActivity extends AppCompatActivity {
     protected void showSetPasswordDialog(){
         final EditText edit_pw = new EditText(this);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("设置密码");
+        builder.setTitle("Edit Your Password");
         builder.setView(edit_pw);
         builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String input = edit_pw.getText().toString();
                 if (input.equals("")) {
-                    Toast.makeText(getApplicationContext(), "修改内容为空噢" + input, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "修改内容为空噢,密码不变" + input, Toast.LENGTH_LONG).show();
                 }
                 else{
+                    MyBmobUser editNickName=new MyBmobUser();
+                    editNickName.setPassword(input);
+                    MyBmobUser currentUser=MyBmobUser.getCurrentUser(MainActivity.this,MyBmobUser.class);
+                    editNickName.update(MainActivity.this, currentUser.getObjectId(), new UpdateListener() {
+                        @Override
+                        public void onSuccess() {
+                            //在此处将用户输入的 input 设置为当前用户的新密码
+                            Toast.makeText(getApplicationContext(), "设置成功！", Toast.LENGTH_LONG).show();
+                            //需要重新登陆
+                            MyBmobUser.logOut(MainActivity.this);
+                            Toast.makeText(MainActivity.this, "请重新登录", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                            startActivity(intent);
+                            CommonAction.getInstance().OutSign();
+                        }
 
-                    //在此处将用户输入的 input 设置为当前用户的新密码
-
-                    Toast.makeText(getApplicationContext(), "设置成功！", Toast.LENGTH_LONG).show();
+                        @Override
+                        public void onFailure(int i, String s) {
+                            Toast.makeText(MainActivity.this, "设置失败", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         });
