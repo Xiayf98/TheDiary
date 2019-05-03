@@ -62,6 +62,8 @@ public class MydiaryRecyclerViewAdapter extends
 
         if(mOpens.get(position)){
             holder.mIdView.setBackgroundResource(R.color.colorPrimary);
+        }else{
+            holder.mIdView.setBackgroundResource(R.color.white);
         }
 
         if(holder.mItem.edit){
