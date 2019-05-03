@@ -33,7 +33,7 @@ public class HomeActivity extends AppCompatActivity
 
 
     private DiaryFragment diaryFragment;
-    private String currentUserID;
+    private String currentUserID;//当前用户的系统内置ID
 
 
     @Override
@@ -77,7 +77,7 @@ public class HomeActivity extends AppCompatActivity
                 selectAllButton.setVisibility(View.VISIBLE);
                 shareButton.setVisibility(View.VISIBLE);
                 deleteButton.setVisibility(View.VISIBLE);
-                //diaryFragment=(DiaryFragment)getSupportFragmentManager().findFragmentById(R.id.diary_fragment);
+                //进入编辑状态，多选按钮出现
                 int size1=DiaryContent.ITEMS.size();
                 for(int i=0;i<size1;++i){
                     DiaryContent.ITEMS.get(i).setEdit(true);
@@ -89,7 +89,7 @@ public class HomeActivity extends AppCompatActivity
                 selectAllButton.setChecked(false);
                 shareButton.setVisibility(View.INVISIBLE);
                 deleteButton.setVisibility(View.INVISIBLE);
-                //diaryFragment=(DiaryFragment)getSupportFragmentManager().findFragmentById(R.id.diary_fragment);
+                //完成或取消编辑，进入浏览状态
                 int size2=DiaryContent.ITEMS.size();
                 for(int i=0;i<size2;++i){
                     DiaryContent.ITEMS.get(i).setEdit(false);
@@ -128,6 +128,8 @@ public class HomeActivity extends AppCompatActivity
             //数据库相应diary open设为true
             int size4=DiaryContent.ITEMS.size();
             shareDiary(size4);
+
+            //分享完毕后重绘界面
             for(int i=0;i<size4;++i){
                 DiaryContent.CHECKS.set(i,false);
                 DiaryContent.ITEMS.get(i).setEdit(false);
@@ -152,6 +154,7 @@ public class HomeActivity extends AppCompatActivity
                 if(DiaryContent.CHECKS.get(i)){
                     DiaryContent.ITEMS.remove(i);
                     DiaryContent.CHECKS.remove(i);
+                    DiaryContent.OPENS.remove(i);
                     //--size5;
                     //diaryFragment.deleteOnAdapter(i+1,1,size5);
                    //--i;
@@ -187,6 +190,7 @@ public class HomeActivity extends AppCompatActivity
         setActionResult(true);
         for(int i=0;i<size;++i) {
             if (DiaryContent.CHECKS.get(i)) {//选中分享
+                DiaryContent.OPENS.set(i,true);//设置该项呈现分享状态
                 final String diaryID = DiaryContent.ITEMS.get(i).real_diary_id;
                 Diary sharingDiary = new Diary();
                 sharingDiary.setOpen(true);

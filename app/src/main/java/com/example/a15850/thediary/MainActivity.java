@@ -132,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
     public void queryPersonalDiary(){
         DiaryContent.ITEMS.clear();
         DiaryContent.CHECKS.clear();
+        DiaryContent.OPENS.clear();
 
         currentUserEmail= (String) MyBmobUser.getObjectByKey(MainActivity.this,"email");
         BmobQuery<Diary> queryPersonalDiary=new BmobQuery<Diary>();
@@ -147,17 +148,19 @@ public class MainActivity extends AppCompatActivity {
                 if(size!=0){
                     for(Diary diary:list){
                         ++count;
-                        DiaryContent.DiaryItem diaryItem= new DiaryContent.DiaryItem(String.valueOf(count),
+                        DiaryContent.DiaryItem diaryItem= new DiaryContent.DiaryItem(" ",
                                 diary.getTitle(), diary.getBody(),diary.getObjectId(),false);
                         DiaryContent.ITEMS.add(diaryItem);
                         DiaryContent.CHECKS.add(false);
+                        DiaryContent.OPENS.add(diary.isOpen());
                     }
                 }else{
 
-                        DiaryContent.DiaryItem diaryItem= new DiaryContent.DiaryItem("0",
+                        DiaryContent.DiaryItem diaryItem= new DiaryContent.DiaryItem(" ",
                                 "日记为空:)", "无内容0",null,false);
                         DiaryContent.ITEMS.add(diaryItem);
                         DiaryContent.CHECKS.add(false);
+                        DiaryContent.OPENS.add(false);
 
 
                 }
@@ -166,10 +169,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onError(int i, String s) {
                 Toast.makeText(MainActivity.this, "个人日记查询失败", Toast.LENGTH_SHORT).show();
-                DiaryContent.DiaryItem diaryItem= new DiaryContent.DiaryItem("0",
+                DiaryContent.DiaryItem diaryItem= new DiaryContent.DiaryItem(" ",
                         "日记为空:)", "无内容0",null,false);
                 DiaryContent.ITEMS.add(diaryItem);
                 DiaryContent.CHECKS.add(false);
+                DiaryContent.OPENS.add(false);
             }
         });
     }

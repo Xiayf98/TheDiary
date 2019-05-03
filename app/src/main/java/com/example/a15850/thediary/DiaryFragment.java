@@ -97,7 +97,7 @@ public class DiaryFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));//The view will be connected to a layout manager
             }
-            mAdapter=new MydiaryRecyclerViewAdapter(DiaryContent.ITEMS,DiaryContent.CHECKS,mListener);
+            mAdapter=new MydiaryRecyclerViewAdapter(DiaryContent.ITEMS,DiaryContent.CHECKS,DiaryContent.OPENS,mListener);
             recyclerView.setAdapter(mAdapter);
             Context temp=getActivity();
             Toast.makeText(temp,"适配器更新成功1",Toast.LENGTH_SHORT).show();
@@ -109,7 +109,7 @@ public class DiaryFragment extends Fragment {
     public void onResume(){
         super.onResume();
         if(updateAdapter){
-            mAdapter=new MydiaryRecyclerViewAdapter(DiaryContent.ITEMS,DiaryContent.CHECKS,mListener);
+            mAdapter=new MydiaryRecyclerViewAdapter(DiaryContent.ITEMS,DiaryContent.CHECKS,DiaryContent.OPENS,mListener);
             recyclerView.setAdapter(mAdapter);
             Context temp=getActivity();
             Toast.makeText(temp,"适配器更新成功2",Toast.LENGTH_SHORT).show();
