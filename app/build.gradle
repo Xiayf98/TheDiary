@@ -39,4 +39,6 @@ dependencies {
     implementation 'cn.bmob.android:bmob-sdk:3.4.7-aar'
     //兼容Android6.0
     // compile 'cn.bmob.android:http-legacy:1.0'
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+
 }

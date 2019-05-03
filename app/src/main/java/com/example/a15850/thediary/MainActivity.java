@@ -19,6 +19,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.support.design.widget.NavigationView;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -93,8 +95,10 @@ public class MainActivity extends AppCompatActivity {
                         showChoosePicDialog();
                         break;
                     case R.id.navigation_id:
+                        showSetIdDialog();
                         break;
                     case R.id.navigation_password:
+                        showSetPasswordDialog();
                         break;
                     case R.id.navigation_logout:
                         Intent intent = new Intent(MainActivity.this,LoginActivity.class);
@@ -110,14 +114,69 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * 显示修改ID的对话框
+     */
+    protected void showSetIdDialog(){
+        final EditText edit_id = new EditText(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("设置id");
+        builder.setView(edit_id);
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String input = edit_id.getText().toString();
+                if(input.equals("")){
+                    Toast.makeText(getApplicationContext(),"修改内容为空噢"+input,Toast.LENGTH_LONG).show();
+                }
+                else{
+
+                    //将用户输入的 input 设置为当前用户的新id
+                    Toast.makeText(getApplicationContext(), "设置成功！" + input, Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        builder.setNegativeButton("取消",null);
+        builder.show();
+    }
+
+    /**
+     * 显示修改密码的对话框
+     */
+    protected void showSetPasswordDialog(){
+        final EditText edit_pw = new EditText(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("设置密码");
+        builder.setView(edit_pw);
+
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String input = edit_pw.getText().toString();
+                    if (input.equals("")) {
+                        Toast.makeText(getApplicationContext(), "修改内容为空噢" + input, Toast.LENGTH_LONG).show();
+                    }
+                    else{
+
+                        //在此处将用户输入的 input 设置为当前用户的新密码
+
+                        Toast.makeText(getApplicationContext(), "设置成功！", Toast.LENGTH_LONG).show();
+                    }
+            }
+        });
+        builder.setNegativeButton("取消",null);
+        builder.show();
+
+    }
+
+    /**
+     * 显示修改头像的对话框
+     */
     protected static final int CHOOSE_PICTURE = 0;
     protected static final int TAKE_PICTURE = 1;
     protected static Uri tempUri;
     private String mCurrentPhotoPath;
 
-    /**
-     * 显示修改头像的对话框
-     */
     protected void showChoosePicDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("设置头像");
